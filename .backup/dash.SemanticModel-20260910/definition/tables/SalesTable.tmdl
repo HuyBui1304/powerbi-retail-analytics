@@ -1,0 +1,327 @@
+table SalesTable
+	lineageTag: 46aca378-7cff-4949-bee7-1f0dd07f0d84
+
+	measure 'Total Revenue' = SUM('SalesTable'[Net_Sales])
+		formatString: #,0.00\ "₫";-#,0.00\ "₫";#,0.00\ "₫"
+		lineageTag: 4f6271dd-47ad-4f32-9927-14e90d3c5b8f
+
+		annotation PBI_FormatHint = {"currencyCulture":"vi-VN"}
+
+	measure 'Total Profit' =
+			
+			SUM('SalesTable'[Gross_Profit])
+		formatString: #,0.00\ "₫";-#,0.00\ "₫";#,0.00\ "₫"
+		lineageTag: 6c2144fa-102d-49e6-a7eb-72f17f87aa55
+
+		annotation PBI_FormatHint = {"currencyCulture":"vi-VN"}
+
+	measure 'Total Quantity' =
+			
+			SUM('SalesTable'[Quantity])
+		formatString: 0
+		lineageTag: 463f90c6-d1b0-46f0-94bf-e63964435601
+
+	measure 'Profit Margin' =
+			
+			DIVIDE(
+			    [Total Profit],
+			    [Total Revenue],
+			    0
+			)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: 4b8a7440-51cb-4924-bf07-82bdc9ec9dfd
+
+	measure 'Previous Month Revenue' =
+			
+			CALCULATE(
+			    [Total Revenue],
+			    DATEADD('DateTable'[Date], -1, MONTH)
+			)
+		lineageTag: e4f3e57f-6985-453d-b0a3-127ee20f4ef5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MoM Revenue Growth' =
+			
+			DIVIDE(
+			    [Total Revenue] - [Previous Month Revenue],
+			    [Previous Month Revenue]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 61435ab7-f0e5-42a0-be06-3e498e62ddb5
+
+	measure 'Previous Month Profit' =
+			
+			CALCULATE(
+			    [Total Profit],
+			    DATEADD('DateTable'[Date], -1, MONTH)
+			)
+		lineageTag: a742a48b-42f6-4bd7-923b-d0947b770958
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MoM Profit Growth' =
+			
+			DIVIDE(
+			    [Total Profit] - [Previous Month Profit],
+			    [Previous Month Profit]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9ff6bd69-2f0d-471c-95e7-ec7dd0f87946
+
+	column Transaction_ID
+		dataType: string
+		lineageTag: cdfbfe27-622c-494d-b35c-c4d1dcc37d03
+		summarizeBy: none
+		sourceColumn: Transaction_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order_ID
+		dataType: string
+		lineageTag: a58776eb-0cd0-49a3-86ed-ba5e6e712633
+		summarizeBy: none
+		sourceColumn: Order_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order_Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ced2ce13-1976-456a-9fca-dac48e1791d5
+		summarizeBy: none
+		sourceColumn: Order_Date
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Sales_Channel
+		dataType: string
+		lineageTag: 2f096a5c-d6ca-4e9f-9258-124875571906
+		summarizeBy: none
+		sourceColumn: Sales_Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Campaign
+		dataType: string
+		lineageTag: 28d7dfb7-4401-41bc-8b6a-79db421758c2
+		summarizeBy: none
+		sourceColumn: Campaign
+
+		annotation SummarizationSetBy = Automatic
+
+	column Store_or_Fulfillment
+		dataType: string
+		lineageTag: 97e80fe4-fb42-4474-8e2a-37cf2aa17427
+		summarizeBy: none
+		sourceColumn: Store_or_Fulfillment
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 9c2a9e67-4791-47b5-b0ba-ee20bfb230d3
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: c3da1325-d00d-4e5a-806c-1d003a65fb4b
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer_ID
+		dataType: string
+		lineageTag: 25e36b0d-326c-4d49-8e35-e20afe506e7e
+		summarizeBy: none
+		sourceColumn: Customer_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product_ID
+		dataType: string
+		lineageTag: 5d5e69ac-7bfb-4225-8900-e6d29723b1dc
+		summarizeBy: none
+		sourceColumn: Product_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: d7495d5d-6132-4117-9c15-cc3cf459b147
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unit_Price
+		dataType: double
+		lineageTag: e4c0b9dc-087e-4660-8efd-bcc3c027c5f1
+		summarizeBy: sum
+		sourceColumn: Unit_Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Discount_Pct
+		dataType: double
+		lineageTag: 3fed129e-606f-4029-a8e1-f76017139b3a
+		summarizeBy: sum
+		sourceColumn: Discount_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Unit_Cost
+		dataType: int64
+		formatString: 0
+		lineageTag: 53bf70ec-069c-4c9c-81d7-2fd32a9014bf
+		summarizeBy: sum
+		sourceColumn: Unit_Cost
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gross_Sales
+		dataType: double
+		lineageTag: 5a5ae01f-769e-4c2c-ac34-6cc9769e8d33
+		summarizeBy: sum
+		sourceColumn: Gross_Sales
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Net_Sales
+		dataType: double
+		lineageTag: 7b9dba53-b201-4518-a7e0-0f070454dd1f
+		summarizeBy: sum
+		sourceColumn: Net_Sales
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Gross_Profit
+		dataType: double
+		lineageTag: efb8504e-074b-4d07-88cd-6d049f52d157
+		summarizeBy: sum
+		sourceColumn: Gross_Profit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Profit_Margin
+		dataType: string
+		lineageTag: c5b919d0-4e0c-482f-b9ed-be1e6c41aa7a
+		summarizeBy: none
+		sourceColumn: Profit_Margin
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order_Status
+		dataType: string
+		lineageTag: 15baa055-eddc-431f-b002-0011085adea1
+		summarizeBy: none
+		sourceColumn: Order_Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Payment_Method
+		dataType: string
+		lineageTag: 9ca6fa8e-c103-47e5-8b97-233c4f932e0b
+		summarizeBy: none
+		sourceColumn: Payment_Method
+
+		annotation SummarizationSetBy = Automatic
+
+	column Promo_Code
+		dataType: string
+		lineageTag: 1ee8a636-1a09-48b3-877e-deeaeb015c2f
+		summarizeBy: none
+		sourceColumn: Promo_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Delivery_Type
+		dataType: string
+		lineageTag: 287e4d66-379a-46ae-a675-e7accad92b5b
+		summarizeBy: none
+		sourceColumn: Delivery_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Promised_Date
+		dataType: string
+		lineageTag: dc57bbb2-488b-424b-838d-585b48411f10
+		summarizeBy: none
+		sourceColumn: Promised_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Delivered_Date
+		dataType: string
+		lineageTag: db48fdd7-0e90-4177-a9fd-15c24ed30d9a
+		summarizeBy: none
+		sourceColumn: Delivered_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Delivery_Days
+		dataType: string
+		lineageTag: 6070349c-bc17-4824-948f-dde086469756
+		summarizeBy: none
+		sourceColumn: Delivery_Days
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer_Rating
+		dataType: string
+		lineageTag: 8a515811-85dc-4e82-9e57-854af3d6a99b
+		summarizeBy: none
+		sourceColumn: Customer_Rating
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SalesTable = m
+		mode: import
+		source = ```
+				let
+				    Source = Excel.Workbook(File.Contents("Y:\Desktop\Project_DA\Retail Dataset.xlsx"), null, true),
+				    SalesTable_Table = Source{[Item="SalesTable",Kind="Table"]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(SalesTable_Table, each true),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Filtered Rows",{{"Unit_Cost", Int64.Type}, {"Discount_Pct", type number}}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Changed Type", each true),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Filtered Rows1",{{"Unit_Price", type number}, {"Quantity", Int64.Type}}),
+				    #"Filtered Rows2" = Table.SelectRows(#"Changed Type1", each true),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Filtered Rows2",{{"Gross_Sales", type number}, {"Net_Sales", type number}, {"Gross_Profit", type number}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type2", "compare", each if [Net_Sales] > [Gross_Sales] then "Check" else "OK"),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Added Custom",{{"compare", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type3",{"compare"}),
+				    #"Added Custom1" = Table.AddColumn(#"Removed Columns", "Custom", each 
+				    if [Order_Status] = "Returned" or [Order_Status] = "Cancelled" then "Excluded"
+				    else if [Discount_Pct] = 0 and [Net_Sales] = [Gross_Sales] then "OK"
+				    else if [Discount_Pct] > 0 and [Net_Sales] < [Gross_Sales] then "OK"
+				    else "Check"
+				),
+				    #"Changed Type4" = Table.TransformColumnTypes(#"Added Custom1",{{"Custom", type text}}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Changed Type4",{"Custom"})
+				in
+				    #"Removed Columns1"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

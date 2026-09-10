@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/huybui/.claude/**)",
+      "Read(//Users/huybui/.claude/plugins/**)",
+      "Bash(grep -ril \"fabric\" /Users/huybui/.claude/ --include=\"*.md\" --include=\"*.json\" 2>/dev/null | head -20)",
+      "Bash(claude plugin *)",
+      "Bash(ls -d /Users/huybui/.vscode/extensions/*claude* /Users/huybui/.vscode-insiders/extensions/*claude* /Users/huybui/.cursor/extensions/*claude* 2>/dev/null)",
+      "Read(//Users/huybui/.vscode/extensions/**)",
+      "Bash(find /Users/huybui/.vscode/extensions /Users/huybui/.cursor/extensions /Users/huybui/.windsurf/extensions -maxdepth 1 -iname \"*claude*\" 2>/dev/null)",
+      "Read(//Users/huybui/.cursor/extensions/**)",
+      "Bash(python3 -c ' *)",
+      "Bash(az account *)",
+      "Bash(fab auth *)",
+      "Bash(prlctl list *)",
+      "Bash(prlctl exec *)",
+      "Bash(prlctl resume *)",
+      "Bash(mkdir -p /private/tmp/claude-501/-Users-huybui-Desktop-Project-DA/805941ec-4c2e-4b2d-bc60-aafdb224a126/scratchpad)",
+      "Bash(screencapture -x /private/tmp/claude-501/-Users-huybui-Desktop-Project-DA/805941ec-4c2e-4b2d-bc60-aafdb224a126/scratchpad/mac_shot.png)"
+    ]
+  }
+}
