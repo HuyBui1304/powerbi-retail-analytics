@@ -61,8 +61,8 @@
           "type": "Image"
         },
         {
-          "name": "icon_revenue.svg",
-          "path": "icon_revenue.svg",
+          "name": "icon_margin.svg",
+          "path": "icon_margin.svg",
           "type": "Image"
         },
         {
@@ -76,28 +76,33 @@
           "type": "Image"
         },
         {
-          "name": "icon_margin.svg",
-          "path": "icon_margin.svg",
+          "name": "icon_revenue.svg",
+          "path": "icon_revenue.svg",
           "type": "Image"
         },
         {
-          "name": "icon_bulb.svg",
-          "path": "icon_bulb.svg",
+          "name": "pb_header.svg",
+          "path": "pb_header.svg",
           "type": "Image"
         },
         {
-          "name": "icon_num1.svg",
-          "path": "icon_num1.svg",
+          "name": "pb_band_region.svg",
+          "path": "pb_band_region.svg",
           "type": "Image"
         },
         {
-          "name": "icon_num2.svg",
-          "path": "icon_num2.svg",
+          "name": "pb_band_channel.svg",
+          "path": "pb_band_channel.svg",
           "type": "Image"
         },
         {
-          "name": "icon_num3.svg",
-          "path": "icon_num3.svg",
+          "name": "pb_band_category.svg",
+          "path": "pb_band_category.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pb_band_product.svg",
+          "path": "pb_band_product.svg",
           "type": "Image"
         }
       ]

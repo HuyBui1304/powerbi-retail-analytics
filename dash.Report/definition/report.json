@@ -79,6 +79,31 @@
           "name": "icon_revenue.svg",
           "path": "icon_revenue.svg",
           "type": "Image"
+        },
+        {
+          "name": "pb_header.svg",
+          "path": "pb_header.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pb_band_region.svg",
+          "path": "pb_band_region.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pb_band_channel.svg",
+          "path": "pb_band_channel.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pb_band_category.svg",
+          "path": "pb_band_category.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pb_band_product.svg",
+          "path": "pb_band_product.svg",
+          "type": "Image"
         }
       ]
     }

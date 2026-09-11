@@ -246,6 +246,24 @@ table SalesTable
 			    )
 		displayFolder: Dashboard Design
 
+	/// Upper bound for the column axis of the Category Performance chart: leaves headroom above the tallest column so the profit-margin line sits above the bars.
+	measure 'Category Axis Max' =
+			VAR _maxRevenue = MAXX ( VALUES ( 'ProductsTable'[Category] ), [Total Revenue] )
+			RETURN
+			    _maxRevenue * 1.7
+		formatString: #,0
+		displayFolder: Dashboard Design
+
+	/// Upper bound for the column axis of the Bottom 5 Products chart (the five products with the lowest profit margin), with headroom for the margin line.
+	measure 'Product Axis Max' =
+			VAR _products =
+			    FILTER ( VALUES ( 'ProductsTable'[Product_Name] ), NOT ISBLANK ( [Total Revenue] ) )
+			VAR _bottom5 = TOPN ( 5, _products, [Profit Margin], ASC )
+			RETURN
+			    MAXX ( _bottom5, [Total Revenue] ) * 1.7
+		formatString: #,0
+		displayFolder: Dashboard Design
+
 	column Transaction_ID
 		dataType: string
 		lineageTag: cdfbfe27-622c-494d-b35c-c4d1dcc37d03

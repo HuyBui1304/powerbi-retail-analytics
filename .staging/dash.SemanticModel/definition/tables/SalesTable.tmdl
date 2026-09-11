@@ -70,7 +70,7 @@ table SalesTable
 		lineageTag: 9ff6bd69-2f0d-471c-95e7-ec7dd0f87946
 
 	/// Change in Total Revenue versus the immediately preceding period of the same length (in months). Blank when no prior data exists.
-	measure 'Revenue vs PP %' = ```
+	measure 'Revenue vs PP %' =
 			VAR _first = MIN ( 'DateTable'[Date] )
 			VAR _last = MAX ( 'DateTable'[Date] )
 			VAR _months = DATEDIFF ( _first, _last, MONTH ) + 1
@@ -83,12 +83,11 @@ table SalesTable
 			VAR _current = [Total Revenue]
 			RETURN
 			    IF ( NOT ISBLANK ( _prior ), DIVIDE ( _current - _prior, _prior ) )
-			```
 		formatString: \↑\ 0.00%;\↓\ 0.00%;0.00%
 		displayFolder: Dashboard Design
 
 	/// Change in Total Profit versus the immediately preceding period of the same length (in months). Blank when no prior data exists.
-	measure 'Profit vs PP %' = ```
+	measure 'Profit vs PP %' =
 			VAR _first = MIN ( 'DateTable'[Date] )
 			VAR _last = MAX ( 'DateTable'[Date] )
 			VAR _months = DATEDIFF ( _first, _last, MONTH ) + 1
@@ -101,12 +100,11 @@ table SalesTable
 			VAR _current = [Total Profit]
 			RETURN
 			    IF ( NOT ISBLANK ( _prior ), DIVIDE ( _current - _prior, _prior ) )
-			```
 		formatString: \↑\ 0.00%;\↓\ 0.00%;0.00%
 		displayFolder: Dashboard Design
 
 	/// Change in Total Quantity versus the immediately preceding period of the same length (in months). Blank when no prior data exists.
-	measure 'Quantity vs PP %' = ```
+	measure 'Quantity vs PP %' =
 			VAR _first = MIN ( 'DateTable'[Date] )
 			VAR _last = MAX ( 'DateTable'[Date] )
 			VAR _months = DATEDIFF ( _first, _last, MONTH ) + 1
@@ -119,12 +117,11 @@ table SalesTable
 			VAR _current = [Total Quantity]
 			RETURN
 			    IF ( NOT ISBLANK ( _prior ), DIVIDE ( _current - _prior, _prior ) )
-			```
 		formatString: \↑\ 0.00%;\↓\ 0.00%;0.00%
 		displayFolder: Dashboard Design
 
 	/// Change in Profit Margin versus the immediately preceding period of the same length, in percentage points. Blank when no prior data exists.
-	measure 'Margin vs PP (pp)' = ```
+	measure 'Margin vs PP (pp)' =
 			VAR _first = MIN ( 'DateTable'[Date] )
 			VAR _last = MAX ( 'DateTable'[Date] )
 			VAR _months = DATEDIFF ( _first, _last, MONTH ) + 1
@@ -142,53 +139,47 @@ table SalesTable
 			    )
 			RETURN
 			    IF ( NOT ISBLANK ( _priorRevenue ), ( [Profit Margin] - _priorMargin ) * 100 )
-			```
 		formatString: \↑\ 0.00\ \p\p;\↓\ 0.00\ \p\p;0.00\ \p\p
 		displayFolder: Dashboard Design
 
 	/// Font color for the revenue change label: green when up, red when down, grey when there is no prior period.
-	measure 'Revenue Delta Color' = ```
+	measure 'Revenue Delta Color' =
 			VAR _change = [Revenue vs PP %]
 			RETURN
 			    SWITCH ( TRUE (), ISBLANK ( _change ), "#8A94A6", _change >= 0, "#16A34A", "#DC2626" )
-			```
 		displayFolder: Dashboard Design
 
 	/// Font color for the profit change label: green when up, red when down, grey when there is no prior period.
-	measure 'Profit Delta Color' = ```
+	measure 'Profit Delta Color' =
 			VAR _change = [Profit vs PP %]
 			RETURN
 			    SWITCH ( TRUE (), ISBLANK ( _change ), "#8A94A6", _change >= 0, "#16A34A", "#DC2626" )
-			```
 		displayFolder: Dashboard Design
 
 	/// Font color for the quantity change label: green when up, red when down, grey when there is no prior period.
-	measure 'Quantity Delta Color' = ```
+	measure 'Quantity Delta Color' =
 			VAR _change = [Quantity vs PP %]
 			RETURN
 			    SWITCH ( TRUE (), ISBLANK ( _change ), "#8A94A6", _change >= 0, "#16A34A", "#DC2626" )
-			```
 		displayFolder: Dashboard Design
 
 	/// Font color for the margin change label: green when up, red when down, grey when there is no prior period.
-	measure 'Margin Delta Color' = ```
+	measure 'Margin Delta Color' =
 			VAR _change = [Margin vs PP (pp)]
 			RETURN
 			    SWITCH ( TRUE (), ISBLANK ( _change ), "#8A94A6", _change >= 0, "#16A34A", "#DC2626" )
-			```
 		displayFolder: Dashboard Design
 
 	/// First and last month of the current date selection, e.g. "Jan 2025 – Dec 2025", shown in the report header.
-	measure 'Period Label' = ```
+	measure 'Period Label' =
 			VAR _first = MIN ( 'DateTable'[Date] )
 			VAR _last = MAX ( 'DateTable'[Date] )
 			RETURN
 			    IF ( NOT ISBLANK ( _first ), FORMAT ( _first, "mmm yyyy" ) & " – " & FORMAT ( _last, "mmm yyyy" ) )
-			```
 		displayFolder: Dashboard Design
 
 	/// Key takeaway 1: total revenue and its change versus the previous period.
-	measure 'Takeaway Revenue' = ```
+	measure 'Takeaway Revenue' =
 			VAR _revenue = [Total Revenue]
 			VAR _change = [Revenue vs PP %]
 			VAR _revenueText =
@@ -207,11 +198,10 @@ table SalesTable
 			                ", " & IF ( _change >= 0, "up ", "down " ) & FORMAT ( ABS ( _change ), "0.00%" ) & " compared to the previous period."
 			            )
 			    )
-			```
 		displayFolder: Dashboard Design
 
 	/// Key takeaway 2: overall profit margin and the month with the highest margin.
-	measure 'Takeaway Margin' = ```
+	measure 'Takeaway Margin' =
 			VAR _months =
 			    FILTER (
 			        ADDCOLUMNS (
@@ -230,11 +220,10 @@ table SalesTable
 			        "Profit margin held around " & FORMAT ( [Profit Margin], "0.0%" )
 			            & ", with a peak of " & FORMAT ( _peakMargin, "0.00%" ) & " in " & _peakMonth & "."
 			    )
-			```
 		displayFolder: Dashboard Design
 
 	/// Key takeaway 3: how often revenue and profit growth moved together, and the month with the strongest revenue growth.
-	measure 'Takeaway Growth' = ```
+	measure 'Takeaway Growth' =
 			VAR _months =
 			    FILTER (
 			        ADDCOLUMNS (
@@ -255,7 +244,24 @@ table SalesTable
 			        "Revenue and profit growth moved together in " & _sameDirection & " of " & _monthCount
 			            & " months; revenue grew fastest in " & _bestMonth & " (" & FORMAT ( _bestGrowth, "+0.0%;-0.0%" ) & ")."
 			    )
-			```
+		displayFolder: Dashboard Design
+
+	/// Upper bound for the column axis of the Category Performance chart: leaves headroom above the tallest column so the profit-margin line sits above the bars.
+	measure 'Category Axis Max' =
+			VAR _maxRevenue = MAXX ( VALUES ( 'ProductsTable'[Category] ), [Total Revenue] )
+			RETURN
+			    _maxRevenue * 1.7
+		formatString: #,0
+		displayFolder: Dashboard Design
+
+	/// Upper bound for the column axis of the Bottom 5 Products chart (the five products with the lowest profit margin), with headroom for the margin line.
+	measure 'Product Axis Max' =
+			VAR _products =
+			    FILTER ( VALUES ( 'ProductsTable'[Product_Name] ), NOT ISBLANK ( [Total Revenue] ) )
+			VAR _bottom5 = TOPN ( 5, _products, [Profit Margin], ASC )
+			RETURN
+			    MAXX ( _bottom5, [Total Revenue] ) * 1.7
+		formatString: #,0
 		displayFolder: Dashboard Design
 
 	column Transaction_ID
