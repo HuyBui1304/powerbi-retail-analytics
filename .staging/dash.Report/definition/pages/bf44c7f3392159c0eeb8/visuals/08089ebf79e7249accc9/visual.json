@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
-  "name": "6cf9d180557bee1283f3",
+  "name": "08089ebf79e7249accc9",
   "position": {
-    "x": 1042,
+    "x": 1248,
     "y": 32,
-    "z": 300,
+    "z": 350,
     "height": 80,
     "width": 190,
-    "tabOrder": 300
+    "tabOrder": 350
   },
   "visual": {
     "visualType": "slicer",
@@ -23,11 +23,11 @@
                       "Entity": "DateTable"
                     }
                   },
-                  "Property": "Quarter"
+                  "Property": "Month"
                 }
               },
-              "queryRef": "DateTable.Quarter",
-              "nativeQueryRef": "Quarter",
+              "queryRef": "DateTable.Month",
+              "nativeQueryRef": "Month",
               "active": true
             }
           ]
@@ -88,7 +88,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Quarter'"
+                  "Value": "'Month'"
                 }
               }
             },
@@ -167,11 +167,6 @@
               }
             }
           }
-        }
-      ],
-      "general": [
-        {
-          "properties": {}
         }
       ]
     },

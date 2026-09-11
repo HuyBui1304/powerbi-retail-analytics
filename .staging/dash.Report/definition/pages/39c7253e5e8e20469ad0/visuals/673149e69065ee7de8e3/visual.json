@@ -325,6 +325,13 @@
                   }
                 }
               }
+            },
+            "interpolationSmooth": {
+              "expr": {
+                "Literal": {
+                  "Value": "'cardinal'"
+                }
+              }
             }
           }
         }

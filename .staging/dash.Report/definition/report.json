@@ -81,11 +81,6 @@
           "type": "Image"
         },
         {
-          "name": "pb_header.svg",
-          "path": "pb_header.svg",
-          "type": "Image"
-        },
-        {
           "name": "pb_hl_region.svg",
           "path": "pb_hl_region.svg",
           "type": "Image"
@@ -128,6 +123,11 @@
         {
           "name": "pb_band_product.svg",
           "path": "pb_band_product.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pb_header_v2.svg",
+          "path": "pb_header_v2.svg",
           "type": "Image"
         }
       ]
