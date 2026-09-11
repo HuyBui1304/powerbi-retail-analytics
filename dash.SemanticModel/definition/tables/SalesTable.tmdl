@@ -85,6 +85,7 @@ table SalesTable
 			    IF ( NOT ISBLANK ( _prior ), DIVIDE ( _current - _prior, _prior ) )
 		formatString: \↑\ 0.00%;\↓\ 0.00%;0.00%
 		displayFolder: Dashboard Design
+		lineageTag: 0c8ff0d7-532d-4bec-8003-043af80e7719
 
 	/// Change in Total Profit versus the immediately preceding period of the same length (in months). Blank when no prior data exists.
 	measure 'Profit vs PP %' =
@@ -102,6 +103,7 @@ table SalesTable
 			    IF ( NOT ISBLANK ( _prior ), DIVIDE ( _current - _prior, _prior ) )
 		formatString: \↑\ 0.00%;\↓\ 0.00%;0.00%
 		displayFolder: Dashboard Design
+		lineageTag: b0b79d7d-abbe-42d6-ba90-0f39581c51ae
 
 	/// Change in Total Quantity versus the immediately preceding period of the same length (in months). Blank when no prior data exists.
 	measure 'Quantity vs PP %' =
@@ -119,6 +121,7 @@ table SalesTable
 			    IF ( NOT ISBLANK ( _prior ), DIVIDE ( _current - _prior, _prior ) )
 		formatString: \↑\ 0.00%;\↓\ 0.00%;0.00%
 		displayFolder: Dashboard Design
+		lineageTag: a0ae758f-12e6-450d-a042-8f7a854c2afd
 
 	/// Change in Profit Margin versus the immediately preceding period of the same length, in percentage points. Blank when no prior data exists.
 	measure 'Margin vs PP (pp)' =
@@ -141,6 +144,7 @@ table SalesTable
 			    IF ( NOT ISBLANK ( _priorRevenue ), ( [Profit Margin] - _priorMargin ) * 100 )
 		formatString: \↑\ 0.00\ \p\p;\↓\ 0.00\ \p\p;0.00\ \p\p
 		displayFolder: Dashboard Design
+		lineageTag: c65a6811-a5c0-4b41-98fd-16fede4c4153
 
 	/// Font color for the revenue change label: green when up, red when down, grey when there is no prior period.
 	measure 'Revenue Delta Color' =
@@ -148,6 +152,7 @@ table SalesTable
 			RETURN
 			    SWITCH ( TRUE (), ISBLANK ( _change ), "#8A94A6", _change >= 0, "#16A34A", "#DC2626" )
 		displayFolder: Dashboard Design
+		lineageTag: 1d43f810-c8d7-4dbc-b0af-ff71aedb8631
 
 	/// Font color for the profit change label: green when up, red when down, grey when there is no prior period.
 	measure 'Profit Delta Color' =
@@ -155,6 +160,7 @@ table SalesTable
 			RETURN
 			    SWITCH ( TRUE (), ISBLANK ( _change ), "#8A94A6", _change >= 0, "#16A34A", "#DC2626" )
 		displayFolder: Dashboard Design
+		lineageTag: 8ad392a8-fb5e-4a5f-b483-4f687a0b68b9
 
 	/// Font color for the quantity change label: green when up, red when down, grey when there is no prior period.
 	measure 'Quantity Delta Color' =
@@ -162,6 +168,7 @@ table SalesTable
 			RETURN
 			    SWITCH ( TRUE (), ISBLANK ( _change ), "#8A94A6", _change >= 0, "#16A34A", "#DC2626" )
 		displayFolder: Dashboard Design
+		lineageTag: 8d72151b-5c59-4d90-8494-593313c19a81
 
 	/// Font color for the margin change label: green when up, red when down, grey when there is no prior period.
 	measure 'Margin Delta Color' =
@@ -169,6 +176,7 @@ table SalesTable
 			RETURN
 			    SWITCH ( TRUE (), ISBLANK ( _change ), "#8A94A6", _change >= 0, "#16A34A", "#DC2626" )
 		displayFolder: Dashboard Design
+		lineageTag: 4a84a4c7-5370-4d6f-95cd-6b2c1ff3713d
 
 	/// First and last month of the current date selection, e.g. "Jan 2025 – Dec 2025", shown in the report header.
 	measure 'Period Label' =
@@ -177,6 +185,7 @@ table SalesTable
 			RETURN
 			    IF ( NOT ISBLANK ( _first ), FORMAT ( _first, "mmm yyyy" ) & " – " & FORMAT ( _last, "mmm yyyy" ) )
 		displayFolder: Dashboard Design
+		lineageTag: bbe34e8a-9517-4f32-86e8-6e6e8f64f8ab
 
 	/// Key takeaway 1: total revenue and its change versus the previous period.
 	measure 'Takeaway Revenue' =
@@ -199,6 +208,7 @@ table SalesTable
 			            )
 			    )
 		displayFolder: Dashboard Design
+		lineageTag: 037a019f-94e6-426f-9693-5ba23d80fca7
 
 	/// Key takeaway 2: overall profit margin and the month with the highest margin.
 	measure 'Takeaway Margin' =
@@ -221,6 +231,7 @@ table SalesTable
 			            & ", with a peak of " & FORMAT ( _peakMargin, "0.00%" ) & " in " & _peakMonth & "."
 			    )
 		displayFolder: Dashboard Design
+		lineageTag: 9626160a-3051-4704-9804-07841a36e455
 
 	/// Key takeaway 3: how often revenue and profit growth moved together, and the month with the strongest revenue growth.
 	measure 'Takeaway Growth' =
@@ -245,6 +256,7 @@ table SalesTable
 			            & " months; revenue grew fastest in " & _bestMonth & " (" & FORMAT ( _bestGrowth, "+0.0%;-0.0%" ) & ")."
 			    )
 		displayFolder: Dashboard Design
+		lineageTag: 2cd39440-b9c8-40a3-9183-c48d5992cdbf
 
 	/// Upper bound for the column axis of the Category Performance chart: leaves headroom above the tallest column so the profit-margin line sits above the bars.
 	measure 'Category Axis Max' =
@@ -253,6 +265,7 @@ table SalesTable
 			    _maxRevenue * 1.7
 		formatString: #,0
 		displayFolder: Dashboard Design
+		lineageTag: 579c901c-3b90-46c5-bead-4b352405d3db
 
 	/// Upper bound for the column axis of the Bottom 5 Products chart (the five products with the lowest profit margin), with headroom for the margin line.
 	measure 'Product Axis Max' =
@@ -263,6 +276,7 @@ table SalesTable
 			    MAXX ( _bottom5, [Total Revenue] ) * 1.7
 		formatString: #,0
 		displayFolder: Dashboard Design
+		lineageTag: cb73c414-2d3a-4b03-88ea-f9dd7dd02b9b
 
 	/// Region with the highest Total Revenue in the current selection (Performance Breakdown highlight card).
 	measure 'Top Region' =
@@ -271,6 +285,7 @@ table SalesTable
 			RETURN
 			    MAXX ( TOPN ( 1, _rows, [@Revenue], DESC ), 'SalesTable'[Region] )
 		displayFolder: Dashboard Design
+		lineageTag: fe6e47f7-ca4a-4968-b21f-a5607ad80008
 
 	/// Share of Total Revenue earned by the top region, e.g. "55.0% of total revenue".
 	measure 'Top Region Caption' =
@@ -280,6 +295,7 @@ table SalesTable
 			RETURN
 			    IF ( NOT ISBLANK ( _topRevenue ), FORMAT ( DIVIDE ( _topRevenue, [Total Revenue] ), "0.0%" ) & " of total revenue" )
 		displayFolder: Dashboard Design
+		lineageTag: 1f98a40c-be1c-45f0-a532-b28c08d76270
 
 	/// Sales channel with the highest Total Revenue in the current selection.
 	measure 'Top Sales Channel' =
@@ -288,6 +304,7 @@ table SalesTable
 			RETURN
 			    MAXX ( TOPN ( 1, _rows, [@Revenue], DESC ), 'SalesTable'[Sales_Channel] )
 		displayFolder: Dashboard Design
+		lineageTag: 1c6ad6d2-3819-4b45-bf73-066499bb8241
 
 	/// Share of Total Revenue earned by the top sales channel.
 	measure 'Top Sales Channel Caption' =
@@ -297,6 +314,7 @@ table SalesTable
 			RETURN
 			    IF ( NOT ISBLANK ( _topRevenue ), FORMAT ( DIVIDE ( _topRevenue, [Total Revenue] ), "0.0%" ) & " of total revenue" )
 		displayFolder: Dashboard Design
+		lineageTag: 44099a4c-a680-46d3-9ac1-5d4d6d24c3fc
 
 	/// Product category with the highest Total Revenue in the current selection.
 	measure 'Top Category' =
@@ -305,6 +323,7 @@ table SalesTable
 			RETURN
 			    MAXX ( TOPN ( 1, _rows, [@Revenue], DESC ), 'ProductsTable'[Category] )
 		displayFolder: Dashboard Design
+		lineageTag: db60ed68-8ba8-4b8f-a702-dddafdd88050
 
 	/// Share of Total Revenue earned by the top category.
 	measure 'Top Category Caption' =
@@ -314,6 +333,7 @@ table SalesTable
 			RETURN
 			    IF ( NOT ISBLANK ( _topRevenue ), FORMAT ( DIVIDE ( _topRevenue, [Total Revenue] ), "0.0%" ) & " of total revenue" )
 		displayFolder: Dashboard Design
+		lineageTag: d5acca76-2653-4e4f-89da-17c48b7d0a57
 
 	/// Product category with the highest Profit Margin (categories with sales only).
 	measure 'Best Margin Category' =
@@ -322,6 +342,7 @@ table SalesTable
 			RETURN
 			    MAXX ( TOPN ( 1, _rows, [@Margin], DESC ), 'ProductsTable'[Category] )
 		displayFolder: Dashboard Design
+		lineageTag: 3ee22b9c-7517-4080-847c-3c809bd171db
 
 	/// Profit Margin of the best-margin category, e.g. "63.1% profit margin".
 	measure 'Best Margin Category Caption' =
@@ -331,6 +352,7 @@ table SalesTable
 			RETURN
 			    IF ( NOT ISBLANK ( _margin ), FORMAT ( _margin, "0.0%" ) & " profit margin" )
 		displayFolder: Dashboard Design
+		lineageTag: 17ebb6c8-139a-4718-a8db-5ccef94e65dd
 
 	/// Product with the lowest Profit Margin (products with sales only).
 	measure 'Lowest Margin Product' =
@@ -339,6 +361,7 @@ table SalesTable
 			RETURN
 			    MAXX ( TOPN ( 1, _rows, [@Margin], ASC ), 'ProductsTable'[Product_Name] )
 		displayFolder: Dashboard Design
+		lineageTag: 6eb34f10-0be1-4372-b398-91eb4a1e0832
 
 	/// Profit Margin of the lowest-margin product.
 	measure 'Lowest Margin Product Caption' =
@@ -347,6 +370,242 @@ table SalesTable
 			VAR _margin = MINX ( _rows, [@Margin] )
 			RETURN
 			    IF ( NOT ISBLANK ( _margin ), FORMAT ( _margin, "0.0%" ) & " profit margin" )
+		displayFolder: Dashboard Design
+		lineageTag: 3393b1cb-c3fe-412f-a6e7-fb32b3860108
+
+	measure 'Weighted Avg Discount' =
+			
+			DIVIDE(
+			    SUMX(
+			        'SalesTable',
+			        'SalesTable'[Gross_Sales] * 'SalesTable'[Discount_Pct]
+			    ),
+			    SUM('SalesTable'[Gross_Sales]),
+			    0
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Dashboard Design
+		lineageTag: 07ffac40-07b3-4255-aaa8-2d5484e2e3eb
+
+
+	measure 'Returned Quantity' =
+			
+			CALCULATE(
+			    [Total Quantity],
+			    'SalesTable'[Order_Status] = "Returned"
+			)
+		formatString: 0
+		displayFolder: Dashboard Design
+		lineageTag: 176e5d70-b685-4811-817b-0f3d1a81b898
+
+	measure 'Return Rate' =
+			
+			DIVIDE(
+			    [Returned Quantity],
+			    [Total Quantity],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Dashboard Design
+		lineageTag: 5a823da8-1a58-49f1-a959-548bf5fa0ef5
+
+
+	measure 'Total Cost' =
+			
+			SUMX(
+			    'SalesTable',
+			    'SalesTable'[Quantity] * 'SalesTable'[Unit_Cost]
+			)
+		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
+		lineageTag: a0ca5ea2-0857-47ea-b9f7-d458d9b724a9
+
+	measure 'Cost Ratio' =
+			
+			DIVIDE(
+			    [Total Cost],
+			    SUM('SalesTable'[Gross_Sales]),
+			    0
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 1e2123fd-b709-45b8-9be1-d1bc216f6981
+
+
+	/// Average units per order line: shows whether discounts make customers buy more per purchase.
+	measure 'Avg Units per Order Line' =
+			DIVIDE ( [Total Quantity], COUNTROWS ( 'SalesTable' ) )
+		formatString: 0.00
+		displayFolder: Dashboard Design
+
+	/// Change in Weighted Avg Discount versus the preceding period of the same length, in percentage points.
+	measure 'Discount vs PP (pp)' =
+			VAR _first = MIN ( 'DateTable'[Date] )
+			VAR _last = MAX ( 'DateTable'[Date] )
+			VAR _months = DATEDIFF ( _first, _last, MONTH ) + 1
+			VAR _priorWindow = DATESBETWEEN ( 'DateTable'[Date], EDATE ( _first, - _months ), _first - 1 )
+			VAR _priorRevenue = CALCULATE ( [Total Revenue], REMOVEFILTERS ( 'DateTable' ), _priorWindow )
+			VAR _prior = CALCULATE ( [Weighted Avg Discount], REMOVEFILTERS ( 'DateTable' ), _priorWindow )
+			RETURN
+			    IF ( NOT ISBLANK ( _priorRevenue ), ( [Weighted Avg Discount] - _prior ) * 100 )
+		formatString: \↑\ 0.00\ \p\p;\↓\ 0.00\ \p\p;0.00\ \p\p
+		displayFolder: Dashboard Design
+
+	/// Change in Return Rate versus the preceding period of the same length, in percentage points.
+	measure 'Return Rate vs PP (pp)' =
+			VAR _first = MIN ( 'DateTable'[Date] )
+			VAR _last = MAX ( 'DateTable'[Date] )
+			VAR _months = DATEDIFF ( _first, _last, MONTH ) + 1
+			VAR _priorWindow = DATESBETWEEN ( 'DateTable'[Date], EDATE ( _first, - _months ), _first - 1 )
+			VAR _priorRevenue = CALCULATE ( [Total Revenue], REMOVEFILTERS ( 'DateTable' ), _priorWindow )
+			VAR _prior = CALCULATE ( [Return Rate], REMOVEFILTERS ( 'DateTable' ), _priorWindow )
+			RETURN
+			    IF ( NOT ISBLANK ( _priorRevenue ), ( [Return Rate] - _prior ) * 100 )
+		formatString: \↑\ 0.00\ \p\p;\↓\ 0.00\ \p\p;0.00\ \p\p
+		displayFolder: Dashboard Design
+
+	/// Change in Cost Ratio versus the preceding period of the same length, in percentage points.
+	measure 'Cost Ratio vs PP (pp)' =
+			VAR _first = MIN ( 'DateTable'[Date] )
+			VAR _last = MAX ( 'DateTable'[Date] )
+			VAR _months = DATEDIFF ( _first, _last, MONTH ) + 1
+			VAR _priorWindow = DATESBETWEEN ( 'DateTable'[Date], EDATE ( _first, - _months ), _first - 1 )
+			VAR _priorRevenue = CALCULATE ( [Total Revenue], REMOVEFILTERS ( 'DateTable' ), _priorWindow )
+			VAR _prior = CALCULATE ( [Cost Ratio], REMOVEFILTERS ( 'DateTable' ), _priorWindow )
+			RETURN
+			    IF ( NOT ISBLANK ( _priorRevenue ), ( [Cost Ratio] - _prior ) * 100 )
+		formatString: \↑\ 0.00\ \p\p;\↓\ 0.00\ \p\p;0.00\ \p\p
+		displayFolder: Dashboard Design
+
+	/// Green when the discount rate went down, red when it went up, grey without a prior period.
+	measure 'Discount Delta Color' =
+			VAR _change = [Discount vs PP (pp)]
+			RETURN
+			    SWITCH ( TRUE (), ISBLANK ( _change ), "#8A94A6", _change <= 0, "#16A34A", "#DC2626" )
+		displayFolder: Dashboard Design
+
+	/// Green when the return rate went down, red when it went up, grey without a prior period.
+	measure 'Return Rate Delta Color' =
+			VAR _change = [Return Rate vs PP (pp)]
+			RETURN
+			    SWITCH ( TRUE (), ISBLANK ( _change ), "#8A94A6", _change <= 0, "#16A34A", "#DC2626" )
+		displayFolder: Dashboard Design
+
+	/// Green when the cost ratio went down, red when it went up, grey without a prior period.
+	measure 'Cost Ratio Delta Color' =
+			VAR _change = [Cost Ratio vs PP (pp)]
+			RETURN
+			    SWITCH ( TRUE (), ISBLANK ( _change ), "#8A94A6", _change <= 0, "#16A34A", "#DC2626" )
+		displayFolder: Dashboard Design
+
+	/// Average Total Revenue per product with sales; reference line on the product diagnosis scatter.
+	measure 'Avg Product Revenue' =
+			AVERAGEX ( VALUES ( 'ProductsTable'[Product_Name] ), [Total Revenue] )
+		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
+		displayFolder: Dashboard Design
+
+	/// Scatter colour: red = revenue at or above average but margin below average, green = margin at or above average, grey = the rest.
+	measure 'Product Diagnosis Color' =
+			VAR _revenue = [Total Revenue]
+			VAR _margin = [Profit Margin]
+			VAR _avgRevenue = CALCULATE ( [Avg Product Revenue], ALLSELECTED ( 'ProductsTable' ) )
+			VAR _avgMargin = CALCULATE ( [Profit Margin], ALLSELECTED ( 'ProductsTable' ) )
+			RETURN
+			    SWITCH ( TRUE (), _revenue >= _avgRevenue && _margin < _avgMargin, "#DC2626", _margin >= _avgMargin, "#10B981", "#94A3B8" )
+		displayFolder: Dashboard Design
+
+	/// Sentence for the product diagnosis section: how many products have above-average revenue but below-average margin.
+	measure 'Product Diagnosis Insight' =
+			VAR _avgRevenue = [Avg Product Revenue]
+			VAR _avgMargin = [Profit Margin]
+			VAR _flagged =
+			    FILTER (
+			        ADDCOLUMNS ( VALUES ( 'ProductsTable'[Product_Name] ), "@Revenue", [Total Revenue], "@Margin", [Profit Margin] ),
+			        NOT ISBLANK ( [@Revenue] ) && [@Revenue] >= _avgRevenue && [@Margin] < _avgMargin
+			    )
+			VAR _count = COUNTROWS ( _flagged ) + 0
+			RETURN
+			    _count & IF ( _count = 1, " product earns", " products earn" ) & " above-average revenue but below-average profit margin (red points) - check their cost ratio and discounts in the table."
+		displayFolder: Dashboard Design
+
+	/// Sentence for the discount chart: margin at the lowest vs highest discount level and the range of units per order line.
+	measure 'Discount Insight' =
+			VAR _levels =
+			    FILTER (
+			        ADDCOLUMNS ( VALUES ( 'SalesTable'[Discount_Pct] ), "@Margin", [Profit Margin], "@Units", [Avg Units per Order Line], "@Revenue", [Total Revenue] ),
+			        [@Revenue] > 0
+			    )
+			VAR _low = MINX ( _levels, 'SalesTable'[Discount_Pct] )
+			VAR _high = MAXX ( _levels, 'SalesTable'[Discount_Pct] )
+			VAR _marginLow = MAXX ( FILTER ( _levels, 'SalesTable'[Discount_Pct] = _low ), [@Margin] )
+			VAR _marginHigh = MAXX ( FILTER ( _levels, 'SalesTable'[Discount_Pct] = _high ), [@Margin] )
+			RETURN
+			    IF (
+			        COUNTROWS ( _levels ) > 1,
+			        "Profit margin " & IF ( _marginHigh < _marginLow, "falls", "rises" ) & " from " & FORMAT ( _marginLow, "0.0%" ) & " at " & FORMAT ( _low, "0%" )
+			            & " discount to " & FORMAT ( _marginHigh, "0.0%" ) & " at " & FORMAT ( _high, "0%" )
+			            & ", while units per order line stay between " & FORMAT ( MINX ( _levels, [@Units] ), "0.00" ) & " and " & FORMAT ( MAXX ( _levels, [@Units] ), "0.00" ) & "."
+			    )
+		displayFolder: Dashboard Design
+
+	/// Sentence for the cost-ratio chart: category with the highest cost ratio and the one with the lowest margin.
+	measure 'Category Insight' =
+			VAR _categories =
+			    FILTER (
+			        ADDCOLUMNS ( VALUES ( 'ProductsTable'[Category] ), "@Cost", [Cost Ratio], "@Margin", [Profit Margin], "@Revenue", [Total Revenue] ),
+			        [@Revenue] > 0
+			    )
+			VAR _topCost = TOPN ( 1, _categories, [@Cost], DESC )
+			VAR _lowMargin = TOPN ( 1, _categories, [@Margin], ASC )
+			VAR _costName = MAXX ( _topCost, 'ProductsTable'[Category] )
+			VAR _marginName = MAXX ( _lowMargin, 'ProductsTable'[Category] )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _costName ),
+			        _costName & " has the highest cost ratio (" & FORMAT ( MAXX ( _topCost, [@Cost] ), "0.0%" ) & ")"
+			            & IF (
+			                _costName = _marginName,
+			                " and the lowest profit margin (" & FORMAT ( MAXX ( _lowMargin, [@Margin] ), "0.0%" ) & ").",
+			                "; the lowest profit margin is " & _marginName & " (" & FORMAT ( MAXX ( _lowMargin, [@Margin] ), "0.0%" ) & ")."
+			            )
+			    )
+		displayFolder: Dashboard Design
+
+	/// Upper bound for the column axis of the discount chart, leaving room for the margin line above the columns.
+	measure 'Discount Chart Axis Max' =
+			MAXX ( VALUES ( 'SalesTable'[Discount_Pct] ), [Avg Units per Order Line] ) * 1.8
+		formatString: 0.00
+		displayFolder: Dashboard Design
+
+	/// Category of the product in the current row; used as a column in the product diagnosis table.
+	measure 'Product Category Label' =
+			SELECTEDVALUE ( 'ProductsTable'[Category] )
+		displayFolder: Dashboard Design
+
+	/// Cell colour for Profit Margin in the product table: green at or above 55%, red below 45%, white in between.
+	measure 'Margin Cell Color' =
+			VAR _margin = [Profit Margin]
+			RETURN
+			    SWITCH ( TRUE (), _margin >= 0.55, "#C9EDD8", _margin < 0.45, "#F8C4C4", "#FFFFFF" )
+		displayFolder: Dashboard Design
+
+	/// Cell colour for Cost Ratio: green below 40% of gross sales, red above 52%.
+	measure 'Cost Ratio Cell Color' =
+			VAR _value = [Cost Ratio]
+			RETURN
+			    SWITCH ( TRUE (), _value <= 0.4, "#C9EDD8", _value >= 0.52, "#F8C4C4", "#FFFFFF" )
+		displayFolder: Dashboard Design
+
+	/// Cell colour for Avg Discount: green at or below 6%, red at or above 10%.
+	measure 'Discount Cell Color' =
+			VAR _value = [Weighted Avg Discount]
+			RETURN
+			    SWITCH ( TRUE (), _value <= 0.06, "#C9EDD8", _value >= 0.1, "#F8C4C4", "#FFFFFF" )
+		displayFolder: Dashboard Design
+
+	/// Cell colour for Return Rate: green at or below 2%, red at or above 5%.
+	measure 'Return Rate Cell Color' =
+			VAR _value = [Return Rate]
+			RETURN
+			    SWITCH ( TRUE (), _value <= 0.02, "#C9EDD8", _value >= 0.05, "#F8C4C4", "#FFFFFF" )
 		displayFolder: Dashboard Design
 
 	column Transaction_ID
@@ -455,13 +714,13 @@ table SalesTable
 
 	column Discount_Pct
 		dataType: double
+		formatString: 0%
 		lineageTag: 3fed129e-606f-4029-a8e1-f76017139b3a
 		summarizeBy: sum
 		sourceColumn: Discount_Pct
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Unit_Cost
 		dataType: int64

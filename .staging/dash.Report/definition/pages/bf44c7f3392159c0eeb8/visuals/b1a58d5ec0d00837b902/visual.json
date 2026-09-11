@@ -687,48 +687,6 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "9da4dd83a64d4463661a",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "SalesTable"
-              }
-            },
-            "Property": "Total Revenue"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "bb31bb37a8ee9ac87048",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "SalesTable"
-              }
-            },
-            "Property": "Total Profit"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "8304f30303201c734739",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "SalesTable"
-              }
-            },
-            "Property": "Profit Margin"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
         "name": "6e1c7853e004217b3cd9",
         "field": {
           "Column": {

@@ -129,6 +129,36 @@
           "name": "pb_header_v2.svg",
           "path": "pb_header_v2.svg",
           "type": "Image"
+        },
+        {
+          "name": "pa_margin.svg",
+          "path": "pa_margin.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pa_discount.svg",
+          "path": "pa_discount.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pa_return.svg",
+          "path": "pa_return.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pa_cost.svg",
+          "path": "pa_cost.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pa_bars.svg",
+          "path": "pa_bars.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pa_calendar.svg",
+          "path": "pa_calendar.svg",
+          "type": "Image"
         }
       ]
     }
