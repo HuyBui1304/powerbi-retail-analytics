@@ -86,6 +86,31 @@
           "type": "Image"
         },
         {
+          "name": "pb_hl_region.svg",
+          "path": "pb_hl_region.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pb_hl_channel.svg",
+          "path": "pb_hl_channel.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pb_hl_category.svg",
+          "path": "pb_hl_category.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pb_hl_best.svg",
+          "path": "pb_hl_best.svg",
+          "type": "Image"
+        },
+        {
+          "name": "pb_hl_lowest.svg",
+          "path": "pb_hl_lowest.svg",
+          "type": "Image"
+        },
+        {
           "name": "pb_band_region.svg",
           "path": "pb_band_region.svg",
           "type": "Image"

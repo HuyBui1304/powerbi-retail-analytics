@@ -3,11 +3,11 @@
   "name": "8d1d28e9388d801abe74",
   "position": {
     "x": 40,
-    "y": 260,
-    "z": 900,
-    "height": 333,
+    "y": 396,
+    "z": 2900,
+    "height": 265,
     "width": 892,
-    "tabOrder": 900
+    "tabOrder": 2900
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -196,6 +196,13 @@
                   "Value": "false"
                 }
               }
+            },
+            "innerPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "22L"
+                }
+              }
             }
           }
         }
@@ -232,6 +239,13 @@
                       "Value": "'#7A869A'"
                     }
                   }
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000000D"
                 }
               }
             },
@@ -358,6 +372,34 @@
               }
             },
             "optimizeLabelDisplay": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "labelContainerMaxWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "160D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000000D"
+                }
+              }
+            },
+            "labelOverflow": {
               "expr": {
                 "Literal": {
                   "Value": "true"

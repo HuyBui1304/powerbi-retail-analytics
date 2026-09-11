@@ -3,11 +3,11 @@
   "name": "b1a58d5ec0d00837b902",
   "position": {
     "x": 988,
-    "y": 713,
-    "z": 2100,
-    "height": 333,
+    "y": 781,
+    "z": 4100,
+    "height": 265,
     "width": 892,
-    "tabOrder": 2100
+    "tabOrder": 4100
   },
   "visual": {
     "visualType": "lineClusteredColumnComboChart",
@@ -196,6 +196,13 @@
                   "Value": "false"
                 }
               }
+            },
+            "innerPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "22L"
+                }
+              }
             }
           }
         }
@@ -232,6 +239,13 @@
                       "Value": "'#7A869A'"
                     }
                   }
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000000D"
                 }
               }
             },
@@ -407,6 +421,34 @@
                   "Value": "true"
                 }
               }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "labelContainerMaxWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "160D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000000D"
+                }
+              }
+            },
+            "showSeries": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
             }
           }
         },
@@ -434,6 +476,34 @@
               "expr": {
                 "Literal": {
                   "Value": "'Above'"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
+            },
+            "enableBackground": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "backgroundTransparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
                 }
               }
             }

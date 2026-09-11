@@ -264,6 +264,91 @@ table SalesTable
 		formatString: #,0
 		displayFolder: Dashboard Design
 
+	/// Region with the highest Total Revenue in the current selection (Performance Breakdown highlight card).
+	measure 'Top Region' =
+			VAR _rows =
+			    FILTER ( ADDCOLUMNS ( VALUES ( 'SalesTable'[Region] ), "@Revenue", [Total Revenue] ), NOT ISBLANK ( [@Revenue] ) )
+			RETURN
+			    MAXX ( TOPN ( 1, _rows, [@Revenue], DESC ), 'SalesTable'[Region] )
+		displayFolder: Dashboard Design
+
+	/// Share of Total Revenue earned by the top region, e.g. "55.0% of total revenue".
+	measure 'Top Region Caption' =
+			VAR _rows =
+			    FILTER ( ADDCOLUMNS ( VALUES ( 'SalesTable'[Region] ), "@Revenue", [Total Revenue] ), NOT ISBLANK ( [@Revenue] ) )
+			VAR _topRevenue = MAXX ( _rows, [@Revenue] )
+			RETURN
+			    IF ( NOT ISBLANK ( _topRevenue ), FORMAT ( DIVIDE ( _topRevenue, [Total Revenue] ), "0.0%" ) & " of total revenue" )
+		displayFolder: Dashboard Design
+
+	/// Sales channel with the highest Total Revenue in the current selection.
+	measure 'Top Sales Channel' =
+			VAR _rows =
+			    FILTER ( ADDCOLUMNS ( VALUES ( 'SalesTable'[Sales_Channel] ), "@Revenue", [Total Revenue] ), NOT ISBLANK ( [@Revenue] ) )
+			RETURN
+			    MAXX ( TOPN ( 1, _rows, [@Revenue], DESC ), 'SalesTable'[Sales_Channel] )
+		displayFolder: Dashboard Design
+
+	/// Share of Total Revenue earned by the top sales channel.
+	measure 'Top Sales Channel Caption' =
+			VAR _rows =
+			    FILTER ( ADDCOLUMNS ( VALUES ( 'SalesTable'[Sales_Channel] ), "@Revenue", [Total Revenue] ), NOT ISBLANK ( [@Revenue] ) )
+			VAR _topRevenue = MAXX ( _rows, [@Revenue] )
+			RETURN
+			    IF ( NOT ISBLANK ( _topRevenue ), FORMAT ( DIVIDE ( _topRevenue, [Total Revenue] ), "0.0%" ) & " of total revenue" )
+		displayFolder: Dashboard Design
+
+	/// Product category with the highest Total Revenue in the current selection.
+	measure 'Top Category' =
+			VAR _rows =
+			    FILTER ( ADDCOLUMNS ( VALUES ( 'ProductsTable'[Category] ), "@Revenue", [Total Revenue] ), NOT ISBLANK ( [@Revenue] ) )
+			RETURN
+			    MAXX ( TOPN ( 1, _rows, [@Revenue], DESC ), 'ProductsTable'[Category] )
+		displayFolder: Dashboard Design
+
+	/// Share of Total Revenue earned by the top category.
+	measure 'Top Category Caption' =
+			VAR _rows =
+			    FILTER ( ADDCOLUMNS ( VALUES ( 'ProductsTable'[Category] ), "@Revenue", [Total Revenue] ), NOT ISBLANK ( [@Revenue] ) )
+			VAR _topRevenue = MAXX ( _rows, [@Revenue] )
+			RETURN
+			    IF ( NOT ISBLANK ( _topRevenue ), FORMAT ( DIVIDE ( _topRevenue, [Total Revenue] ), "0.0%" ) & " of total revenue" )
+		displayFolder: Dashboard Design
+
+	/// Product category with the highest Profit Margin (categories with sales only).
+	measure 'Best Margin Category' =
+			VAR _rows =
+			    FILTER ( ADDCOLUMNS ( VALUES ( 'ProductsTable'[Category] ), "@Margin", [Profit Margin], "@Revenue", [Total Revenue] ), [@Revenue] > 0 )
+			RETURN
+			    MAXX ( TOPN ( 1, _rows, [@Margin], DESC ), 'ProductsTable'[Category] )
+		displayFolder: Dashboard Design
+
+	/// Profit Margin of the best-margin category, e.g. "63.1% profit margin".
+	measure 'Best Margin Category Caption' =
+			VAR _rows =
+			    FILTER ( ADDCOLUMNS ( VALUES ( 'ProductsTable'[Category] ), "@Margin", [Profit Margin], "@Revenue", [Total Revenue] ), [@Revenue] > 0 )
+			VAR _margin = MAXX ( _rows, [@Margin] )
+			RETURN
+			    IF ( NOT ISBLANK ( _margin ), FORMAT ( _margin, "0.0%" ) & " profit margin" )
+		displayFolder: Dashboard Design
+
+	/// Product with the lowest Profit Margin (products with sales only).
+	measure 'Lowest Margin Product' =
+			VAR _rows =
+			    FILTER ( ADDCOLUMNS ( VALUES ( 'ProductsTable'[Product_Name] ), "@Margin", [Profit Margin], "@Revenue", [Total Revenue] ), [@Revenue] > 0 )
+			RETURN
+			    MAXX ( TOPN ( 1, _rows, [@Margin], ASC ), 'ProductsTable'[Product_Name] )
+		displayFolder: Dashboard Design
+
+	/// Profit Margin of the lowest-margin product.
+	measure 'Lowest Margin Product Caption' =
+			VAR _rows =
+			    FILTER ( ADDCOLUMNS ( VALUES ( 'ProductsTable'[Product_Name] ), "@Margin", [Profit Margin], "@Revenue", [Total Revenue] ), [@Revenue] > 0 )
+			VAR _margin = MINX ( _rows, [@Margin] )
+			RETURN
+			    IF ( NOT ISBLANK ( _margin ), FORMAT ( _margin, "0.0%" ) & " profit margin" )
+		displayFolder: Dashboard Design
+
 	column Transaction_ID
 		dataType: string
 		lineageTag: cdfbfe27-622c-494d-b35c-c4d1dcc37d03
