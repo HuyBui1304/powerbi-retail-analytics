@@ -31,7 +31,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "by Region",
+                    "value": "by Region → City (drill down to see cities)",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "12pt",

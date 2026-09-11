@@ -98,8 +98,7 @@
             },
             "direction": "Ascending"
           }
-        ],
-        "isDefaultSort": false
+        ]
       }
     },
     "objects": {
@@ -404,7 +403,7 @@
             "labelPosition": {
               "expr": {
                 "Literal": {
-                  "Value": "'OutsideEnd'"
+                  "Value": "'Auto'"
                 }
               }
             },
@@ -447,6 +446,13 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            },
+            "labelOrientation": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }
@@ -526,7 +532,7 @@
             "lineChartType": {
               "expr": {
                 "Literal": {
-                  "Value": "'smooth'"
+                  "Value": "'linear'"
                 }
               }
             },
@@ -568,7 +574,6 @@
         }
       ]
     },
-    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "background": [
         {
@@ -676,7 +681,8 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
   },
   "filterConfig": {
     "filters": [

@@ -404,7 +404,7 @@
             "labelPosition": {
               "expr": {
                 "Literal": {
-                  "Value": "'OutsideEnd'"
+                  "Value": "'Auto'"
                 }
               }
             },
@@ -447,6 +447,13 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            },
+            "labelOrientation": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }
@@ -526,7 +533,7 @@
             "lineChartType": {
               "expr": {
                 "Literal": {
-                  "Value": "'smooth'"
+                  "Value": "'linear'"
                 }
               }
             },
@@ -568,7 +575,6 @@
         }
       ]
     },
-    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "background": [
         {
@@ -676,6 +682,67 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "2c40753da032695296b8",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "ProductsTable"
+              }
+            },
+            "Property": "Category"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "49c64c650ae0ed99b80d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "SalesTable"
+              }
+            },
+            "Property": "Total Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "54e220a3dc047b80e471",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "SalesTable"
+              }
+            },
+            "Property": "Total Profit"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "29fb4ca0373ccbd4062b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "SalesTable"
+              }
+            },
+            "Property": "Profit Margin"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

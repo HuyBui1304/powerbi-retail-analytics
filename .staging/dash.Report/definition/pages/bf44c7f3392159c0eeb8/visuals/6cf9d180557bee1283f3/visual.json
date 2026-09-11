@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "DateTable.Quarter",
-              "nativeQueryRef": "Quarter"
+              "nativeQueryRef": "Quarter",
+              "active": true
             }
           ]
         }
@@ -166,6 +167,11 @@
               }
             }
           }
+        }
+      ],
+      "general": [
+        {
+          "properties": {}
         }
       ]
     },

@@ -26,7 +26,8 @@
       "Bash(sed -n \"/measure 'Top Region Caption'/,/displayFolder/p\" .staging/dash.SemanticModel/definition/tables/SalesTable.tmdl)",
       "Bash(python3 /private/tmp/claude-501/-Users-huybui-Desktop-Project-DA/805941ec-4c2e-4b2d-bc60-aafdb224a126/scratchpad/patch_p2a.py)",
       "Bash(/private/tmp/claude-501/-Users-huybui-Desktop-Project-DA/805941ec-4c2e-4b2d-bc60-aafdb224a126/scratchpad/rebuild2.sh)",
-      "Bash(/private/tmp/claude-501/-Users-huybui-Desktop-Project-DA/805941ec-4c2e-4b2d-bc60-aafdb224a126/scratchpad/cycle.sh p2_v4)"
+      "Bash(/private/tmp/claude-501/-Users-huybui-Desktop-Project-DA/805941ec-4c2e-4b2d-bc60-aafdb224a126/scratchpad/cycle.sh p2_v4)",
+      "Bash(/private/tmp/claude-501/-Users-huybui-Desktop-Project-DA/805941ec-4c2e-4b2d-bc60-aafdb224a126/scratchpad/vmps.sh /private/tmp/claude-501/-Users-huybui-Desktop-Project-DA/805941ec-4c2e-4b2d-bc60-aafdb224a126/scratchpad/close_graceful.ps1)"
     ]
   }
 }
