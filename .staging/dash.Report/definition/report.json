@@ -194,6 +194,21 @@
           "name": "ca_calendar.svg",
           "path": "ca_calendar.svg",
           "type": "Image"
+        },
+        {
+          "name": "cr_clock.svg",
+          "path": "cr_clock.svg",
+          "type": "Image"
+        },
+        {
+          "name": "cr_alert.svg",
+          "path": "cr_alert.svg",
+          "type": "Image"
+        },
+        {
+          "name": "cr_star.svg",
+          "path": "cr_star.svg",
+          "type": "Image"
         }
       ]
     }

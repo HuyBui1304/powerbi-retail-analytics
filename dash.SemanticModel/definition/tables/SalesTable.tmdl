@@ -854,6 +854,217 @@ table SalesTable
 			SELECTEDVALUE ( 'CustomersTable'[City], "—" )
 		displayFolder: Customer Analysis
 
+	/// Average number of days between two orders of the same customer (customers with at least two orders).
+	measure 'Avg Days Between Orders' =
+			VAR _customers =
+			    ADDCOLUMNS (
+			        FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Orders] >= 2 ),
+			        "@Gap",
+			            VAR _first = CALCULATE ( MIN ( 'SalesTable'[Order_Date] ) )
+			            VAR _last = CALCULATE ( MAX ( 'SalesTable'[Order_Date] ) )
+			            RETURN DIVIDE ( DATEDIFF ( _first, _last, DAY ), [Total Orders] - 1 )
+			    )
+			RETURN
+			    AVERAGEX ( _customers, [@Gap] )
+		formatString: #,0
+		displayFolder: Customer Retention
+
+	/// Customers whose last order is more than 90 days before the most recent order in the selection.
+	measure 'Customers At Risk' =
+			COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Customer Segment] = "At risk" ) ) + 0
+		formatString: #,0
+		displayFolder: Customer Retention
+
+	/// Revenue earned by the customers currently flagged as At risk.
+	measure 'Revenue At Risk' =
+			SUMX ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Customer Segment] = "At risk" ), [Total Revenue] )
+		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
+		displayFolder: Customer Retention
+
+	/// At-risk customers whose revenue is at or above the average revenue per customer.
+	measure 'High Value At Risk' =
+			VAR _average = CALCULATE ( [Revenue per Customer], ALLSELECTED ( 'SalesTable'[Customer_ID] ) )
+			RETURN
+			    COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Customer Segment] = "At risk" && [Total Revenue] >= _average ) ) + 0
+		formatString: #,0
+		displayFolder: Customer Retention
+
+	/// Order lines that carry a customer rating.
+	measure 'Rated Orders' =
+			COUNTROWS ( FILTER ( 'SalesTable', NOT ISBLANK ( 'SalesTable'[Customer_Rating] ) ) ) + 0
+		formatString: #,0
+		displayFolder: Customer Retention
+
+	/// Average customer rating (1 to 5) across rated order lines.
+	measure 'Avg Customer Rating' =
+			AVERAGEX ( FILTER ( 'SalesTable', NOT ISBLANK ( 'SalesTable'[Customer_Rating] ) ), VALUE ( 'SalesTable'[Customer_Rating] ) )
+		formatString: 0.0
+		displayFolder: Customer Retention
+
+	/// Share of rated order lines with 4 or 5 stars.
+	measure 'Happy Orders %' =
+			VAR _rated = [Rated Orders]
+			VAR _happy = COUNTROWS ( FILTER ( 'SalesTable', NOT ISBLANK ( 'SalesTable'[Customer_Rating] ) && VALUE ( 'SalesTable'[Customer_Rating] ) >= 4 ) )
+			RETURN
+			    DIVIDE ( _happy, _rated )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Customer Retention
+
+	/// Share of order lines placed on the channel the customer declared as preferred.
+	measure 'Channel Match Rate' =
+			VAR _total = COUNTROWS ( 'SalesTable' )
+			VAR _matched =
+			    COUNTROWS (
+			        FILTER ( 'SalesTable', RELATED ( 'CustomersTable'[Preferred_Channel] ) = 'SalesTable'[Sales_Channel] )
+			    )
+			RETURN
+			    DIVIDE ( _matched, _total )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Customer Retention
+
+	/// Caption: how the gap compares with the 90 day at-risk threshold.
+	measure 'Avg Days Between Orders Caption' =
+			"at-risk threshold is 90 days"
+		displayFolder: Customer Retention
+
+	/// Caption: how many at-risk customers spend above average.
+	measure 'Customers At Risk Caption' =
+			FORMAT ( [High Value At Risk], "#,0" ) & " of them spend above average"
+		displayFolder: Customer Retention
+
+	/// Caption: share of revenue tied to at-risk customers.
+	measure 'Revenue At Risk Caption' =
+			FORMAT ( DIVIDE ( [Revenue At Risk], [Total Revenue] ), "0.0%" ) & " of total revenue"
+		displayFolder: Customer Retention
+
+	/// Caption: how many order lines carry a rating.
+	measure 'Avg Customer Rating Caption' =
+			FORMAT ( [Rated Orders], "#,0" ) & " rated orders · " & FORMAT ( [Happy Orders %], "0.0%" ) & " gave 4-5 stars"
+		displayFolder: Customer Retention
+
+	/// Caption: what the channel match rate means.
+	measure 'Channel Match Rate Caption' =
+			"orders placed on the declared preferred channel"
+		displayFolder: Customer Retention
+
+	/// Sentence for the monthly chart: how first-time and repeat buyers moved across the selected months.
+	measure 'Retention Insight' =
+			VAR _months =
+			    FILTER (
+			        ADDCOLUMNS (
+			            SUMMARIZE ( 'DateTable', 'DateTable'[Year], 'DateTable'[Month_Number] ),
+			            "@Active", [Active Customers], "@New", [First-time Buyers]
+			        ),
+			        [@Active] > 0
+			    )
+			VAR _firstKey = MINX ( _months, 'DateTable'[Year] * 100 + 'DateTable'[Month_Number] )
+			VAR _lastKey = MAXX ( _months, 'DateTable'[Year] * 100 + 'DateTable'[Month_Number] )
+			VAR _firstRow = FILTER ( _months, 'DateTable'[Year] * 100 + 'DateTable'[Month_Number] = _firstKey )
+			VAR _lastRow = FILTER ( _months, 'DateTable'[Year] * 100 + 'DateTable'[Month_Number] = _lastKey )
+			VAR _firstActive = MAXX ( _firstRow, [@Active] )
+			VAR _lastActive = MAXX ( _lastRow, [@Active] )
+			VAR _firstNew = MAXX ( _firstRow, [@New] )
+			VAR _lastNew = MAXX ( _lastRow, [@New] )
+			RETURN
+			    IF (
+			        COUNTROWS ( _months ) > 1,
+			        "Active customers moved from " & FORMAT ( _firstActive, "#,0" ) & " in " & FORMAT ( DATE ( INT ( _firstKey / 100 ), MOD ( _firstKey, 100 ), 1 ), "mmm yyyy" )
+			            & " to " & FORMAT ( _lastActive, "#,0" ) & " in " & FORMAT ( DATE ( INT ( _lastKey / 100 ), MOD ( _lastKey, 100 ), 1 ), "mmm yyyy" )
+			            & ". First-time buyers fell from " & FORMAT ( _firstNew, "#,0" ) & " to " & FORMAT ( _lastNew, "#,0" )
+			            & ", while repeat buyers grew from " & FORMAT ( _firstActive - _firstNew, "#,0" ) & " to " & FORMAT ( _lastActive - _lastNew, "#,0" ) & "."
+			    )
+		displayFolder: Customer Retention
+
+	/// Sentence for the rating distribution: overall rating and the share of unhappy orders.
+	measure 'Rating Insight' =
+			VAR _low =
+			    CALCULATE (
+			        [Rated Orders],
+			        FILTER ( 'SalesTable', NOT ISBLANK ( 'SalesTable'[Customer_Rating] ) && VALUE ( 'SalesTable'[Customer_Rating] ) <= 2 )
+			    )
+			RETURN
+			    "Average rating is " & FORMAT ( [Avg Customer Rating], "0.0" ) & " out of 5 and " & FORMAT ( [Happy Orders %], "0.0%" )
+			        & " of rated orders gave 4 or 5 stars, but " & FORMAT ( _low, "#,0" ) & " orders ("
+			        & FORMAT ( DIVIDE ( _low, [Rated Orders] ), "0.0%" ) & ") rated 1 or 2 stars."
+		displayFolder: Customer Retention
+
+	/// Sentence for the channel matrix: how often customers buy on the channel they declared.
+	measure 'Channel Insight' =
+			"Only " & FORMAT ( [Channel Match Rate], "0.0%" ) & " of orders are placed on the channel the customer declared as preferred, so the declared preference is a weak targeting signal."
+		displayFolder: Customer Retention
+
+	/// Sentence for the win-back list: how much revenue sits with at-risk customers.
+	measure 'At Risk Insight' =
+			FORMAT ( [Customers At Risk], "#,0" ) & " customers have gone quiet for more than 90 days, carrying "
+			    & FORMAT ( [Revenue At Risk] / 1e6, "#,0" ) & "M ₫ (" & FORMAT ( DIVIDE ( [Revenue At Risk], [Total Revenue] ), "0.0%" ) & " of revenue); "
+			    & FORMAT ( [High Value At Risk], "#,0" ) & " of them spend above average."
+		displayFolder: Customer Retention
+
+	/// Customers whose first ever order falls inside the selected period.
+	measure 'First-time Buyers' =
+			CALCULATE (
+			    DISTINCTCOUNT ( 'SalesTable'[Customer_ID] ),
+			    FILTER ( 'SalesTable', 'SalesTable'[Order_Date] = 'SalesTable'[First_Purchase_Date] )
+			) + 0
+		formatString: #,0
+		displayFolder: Customer Retention
+
+	/// Active customers who had already ordered before the selected period.
+	measure 'Repeat Buyers' =
+			[Active Customers] - [First-time Buyers]
+		formatString: #,0
+		displayFolder: Customer Retention
+
+	/// Sentence for the delivery chart: how late delivery and returns pull ratings down.
+	measure 'Delivery Insight' =
+			VAR _onTime = CALCULATE ( [Avg Customer Rating], 'SalesTable'[Delivery_Days] = "0" )
+			VAR _late =
+			    CALCULATE (
+			        [Avg Customer Rating],
+			        FILTER ( 'SalesTable', NOT ISBLANK ( 'SalesTable'[Delivery_Days] ) && 'SalesTable'[Delivery_Days] <> "0" )
+			    )
+			VAR _lateOrders =
+			    CALCULATE (
+			        [Rated Orders],
+			        FILTER ( 'SalesTable', NOT ISBLANK ( 'SalesTable'[Delivery_Days] ) && 'SalesTable'[Delivery_Days] <> "0" )
+			    )
+			VAR _returned = CALCULATE ( [Avg Customer Rating], 'SalesTable'[Order_Status] = "Returned" )
+			RETURN
+			    "Orders delivered on time average " & FORMAT ( _onTime, "0.0" ) & " stars; the " & FORMAT ( _lateOrders, "#,0" )
+			        & " late ones average " & FORMAT ( _late, "0.0" ) & ", and returned orders only " & FORMAT ( _returned, "0.0" ) & "."
+		displayFolder: Customer Retention
+
+	/// The date of this customer's first ever order, used to split first-time from repeat buyers.
+	column First_Purchase_Date = CALCULATE ( MIN ( 'SalesTable'[Order_Date] ), ALLEXCEPT ( 'SalesTable', 'SalesTable'[Customer_ID] ) )
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9c1a5f30-4f36-4a07-bad4-15448ed2ea37
+		summarizeBy: none
+		isHidden
+
+	/// Member tier, shown only for customers flagged as At risk.
+	measure 'Win-back Tier' =
+			IF ( [Customer Segment] = "At risk", [Member Tier Label] )
+		displayFolder: Customer Retention
+
+	/// Order count, shown only for customers flagged as At risk.
+	measure 'Win-back Orders' =
+			IF ( [Customer Segment] = "At risk", [Total Orders] )
+		formatString: #,0
+		displayFolder: Customer Retention
+
+	/// Revenue, shown only for customers flagged as At risk.
+	measure 'Win-back Revenue' =
+			IF ( [Customer Segment] = "At risk", [Total Revenue] )
+		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
+		displayFolder: Customer Retention
+
+	/// Days since the last order, shown only for customers flagged as At risk.
+	measure 'Win-back Days Quiet' =
+			IF ( [Customer Segment] = "At risk", [Days Since Last Order] )
+		formatString: #,0
+		displayFolder: Customer Retention
+
 	column Transaction_ID
 		dataType: string
 		lineageTag: cdfbfe27-622c-494d-b35c-c4d1dcc37d03
