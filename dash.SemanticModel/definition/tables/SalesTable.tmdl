@@ -608,6 +608,252 @@ table SalesTable
 			    SWITCH ( TRUE (), _value <= 0.02, "#C9EDD8", _value >= 0.05, "#F8C4C4", "#FFFFFF" )
 		displayFolder: Dashboard Design
 
+	/// Customers with at least one order in the current selection.
+	measure 'Active Customers' =
+			DISTINCTCOUNT ( 'SalesTable'[Customer_ID] )
+		formatString: #,0
+		displayFolder: Customer Analysis
+
+	/// Distinct orders in the current selection.
+	measure 'Total Orders' =
+			DISTINCTCOUNT ( 'SalesTable'[Order_ID] )
+		formatString: #,0
+		displayFolder: Customer Analysis
+
+	/// Total Revenue divided by the number of active customers.
+	measure 'Revenue per Customer' =
+			DIVIDE ( [Total Revenue], [Active Customers] )
+		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
+		displayFolder: Customer Analysis
+
+	/// Total Revenue divided by the number of orders.
+	measure 'Avg Order Value' =
+			DIVIDE ( [Total Revenue], [Total Orders] )
+		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
+		displayFolder: Customer Analysis
+
+	/// Average number of orders per active customer.
+	measure 'Orders per Customer' =
+			DIVIDE ( [Total Orders], [Active Customers] )
+		formatString: 0.00
+		displayFolder: Customer Analysis
+
+	/// Customers with two or more orders in the current selection.
+	measure 'Repeat Customers' =
+			COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Orders] >= 2 ) ) + 0
+		formatString: #,0
+		displayFolder: Customer Analysis
+
+	/// Share of active customers who ordered more than once.
+	measure 'Repeat Rate' =
+			DIVIDE ( [Repeat Customers], [Active Customers] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Customer Analysis
+
+	/// Active customers whose Join_Date falls inside the selected period.
+	measure 'New Customers' =
+			VAR _first = MIN ( 'DateTable'[Date] )
+			VAR _last = MAX ( 'DateTable'[Date] )
+			RETURN
+			    COUNTROWS (
+			        FILTER (
+			            VALUES ( 'CustomersTable'[Customer_ID] ),
+			            VAR _join = CALCULATE ( MIN ( 'CustomersTable'[Join_Date] ) )
+			            VAR _orders = CALCULATE ( DISTINCTCOUNT ( 'SalesTable'[Order_ID] ) )
+			            RETURN
+			                _orders > 0 && _join >= _first && _join <= _last
+			        )
+			    ) + 0
+		formatString: #,0
+		displayFolder: Customer Analysis
+
+	/// Active customers who joined before the selected period.
+	measure 'Returning Customers' =
+			[Active Customers] - [New Customers]
+		formatString: #,0
+		displayFolder: Customer Analysis
+
+	/// Median revenue per active customer.
+	measure 'Median Customer Revenue' =
+			MEDIANX ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Revenue] )
+		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
+		displayFolder: Customer Analysis
+
+	/// Highest number of orders placed by a single customer.
+	measure 'Max Orders per Customer' =
+			MAXX ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Orders] ) + 0
+		formatString: #,0
+		displayFolder: Customer Analysis
+
+	/// Caption under the customer count: new versus returning.
+	measure 'Customers Caption' =
+			FORMAT ( [New Customers], "#,0" ) & " new" & " · " & FORMAT ( [Returning Customers], "#,0" ) & " returning"
+		displayFolder: Customer Analysis
+
+	/// Caption under revenue per customer: the median customer.
+	measure 'Revenue per Customer Caption' =
+			"median " & FORMAT ( [Median Customer Revenue] / 1e6, "0.0" ) & "M ₫"
+		displayFolder: Customer Analysis
+
+	/// Caption under average order value: order count.
+	measure 'Avg Order Value Caption' =
+			FORMAT ( [Total Orders], "#,0" ) & " orders in total"
+		displayFolder: Customer Analysis
+
+	/// Caption under orders per customer: the most active customer.
+	measure 'Orders per Customer Caption' =
+			"most active customer: " & FORMAT ( [Max Orders per Customer], "#,0" ) & " orders"
+		displayFolder: Customer Analysis
+
+	/// Caption under repeat rate: how many customers ordered again.
+	measure 'Repeat Rate Caption' =
+			FORMAT ( [Repeat Customers], "#,0" ) & " of " & FORMAT ( [Active Customers], "#,0" ) & " customers"
+		displayFolder: Customer Analysis
+
+	/// Running share of revenue when customers are ranked from the largest to the smallest.
+	measure 'Cumulative Revenue %' =
+			VAR _current = [Total Revenue]
+			VAR _customers =
+			    CALCULATETABLE ( ADDCOLUMNS ( VALUES ( 'SalesTable'[Customer_ID] ), "@Revenue", [Total Revenue] ), ALLSELECTED ( 'SalesTable' ) )
+			VAR _total = SUMX ( _customers, [@Revenue] )
+			VAR _cumulative = SUMX ( FILTER ( _customers, [@Revenue] >= _current ), [@Revenue] )
+			RETURN
+			    IF ( NOT ISBLANK ( _current ), DIVIDE ( _cumulative, _total ) )
+		formatString: 0%;-0%;0%
+		displayFolder: Customer Analysis
+
+	/// Sentence for the Pareto chart: revenue share of the top 10% and top 20% of customers.
+	measure 'Value Concentration Insight' =
+			VAR _customers =
+			    CALCULATETABLE ( ADDCOLUMNS ( VALUES ( 'SalesTable'[Customer_ID] ), "@Revenue", [Total Revenue] ), ALLSELECTED ( 'SalesTable' ) )
+			VAR _count = COUNTROWS ( _customers )
+			VAR _total = SUMX ( _customers, [@Revenue] )
+			VAR _top10 = ROUND ( _count * 0.1, 0 )
+			VAR _top20 = ROUND ( _count * 0.2, 0 )
+			RETURN
+			    IF (
+			        _count > 10,
+			        "The top 10% of customers (" & FORMAT ( _top10, "#,0" ) & " of " & FORMAT ( _count, "#,0" ) & ") bring "
+			            & FORMAT ( DIVIDE ( SUMX ( TOPN ( _top10, _customers, [@Revenue], DESC ), [@Revenue] ), _total ), "0.0%" )
+			            & " of revenue; the top 20% bring "
+			            & FORMAT ( DIVIDE ( SUMX ( TOPN ( _top20, _customers, [@Revenue], DESC ), [@Revenue] ), _total ), "0.0%" ) & "."
+			    )
+		displayFolder: Customer Analysis
+
+	/// Days between a customer's last order and the latest order date in the selection.
+	measure 'Days Since Last Order' =
+			VAR _reference = CALCULATE ( MAX ( 'SalesTable'[Order_Date] ), ALLSELECTED ( 'SalesTable' ) )
+			VAR _last = MAX ( 'SalesTable'[Order_Date] )
+			RETURN
+			    IF ( NOT ISBLANK ( _last ), DATEDIFF ( _last, _reference, DAY ) )
+		formatString: #,0
+		displayFolder: Customer Analysis
+
+	/// Behaviour segment: Champion, Loyal, At risk, One-time or Occasional.
+	measure 'Customer Segment' =
+			VAR _orders = [Total Orders]
+			VAR _revenue = [Total Revenue]
+			VAR _recency = [Days Since Last Order]
+			VAR _avgRevenue = CALCULATE ( [Revenue per Customer], ALLSELECTED ( 'SalesTable'[Customer_ID] ) )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( _orders ), BLANK (),
+			        _recency > 90, "At risk",
+			        _orders >= 3 && _revenue >= _avgRevenue, "Champion",
+			        _orders >= 3, "Loyal",
+			        _orders = 1, "One-time",
+			        "Occasional"
+			    )
+		displayFolder: Customer Analysis
+
+	/// Colour for the customer segment: green for Champion and Loyal, red for At risk.
+	measure 'Segment Color' =
+			VAR _segment = [Customer Segment]
+			RETURN
+			    SWITCH (
+			        _segment,
+			        "Champion", "#10B981",
+			        "Loyal", "#34D399",
+			        "At risk", "#DC2626",
+			        "One-time", "#F59E0B",
+			        "#94A3B8"
+			    )
+		displayFolder: Customer Analysis
+
+	/// Number of active customers in the current segment bucket.
+	measure 'Customers in Segment' =
+			COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( [Total Orders] ) ) ) + 0
+		formatString: #,0
+		displayFolder: Customer Analysis
+
+	/// Sentence for the member tier chart: which tier brings the most revenue and how average order value compares.
+	measure 'Tier Insight' =
+			VAR _tiers =
+			    FILTER (
+			        ADDCOLUMNS ( VALUES ( 'CustomersTable'[Member_Tier] ), "@Revenue", [Total Revenue], "@AOV", [Avg Order Value] ),
+			        [@Revenue] > 0 && NOT ISBLANK ( 'CustomersTable'[Member_Tier] )
+			    )
+			VAR _top = TOPN ( 1, _tiers, [@Revenue], DESC )
+			VAR _total = SUMX ( _tiers, [@Revenue] )
+			RETURN
+			    IF (
+			        COUNTROWS ( _tiers ) > 1,
+			        MAXX ( _top, 'CustomersTable'[Member_Tier] ) & " brings the most revenue ("
+			            & FORMAT ( DIVIDE ( MAXX ( _top, [@Revenue] ), _total ), "0.0%" ) & "), while average order value stays between "
+			            & FORMAT ( MINX ( _tiers, [@AOV] ) / 1e6, "0.00" ) & "M and " & FORMAT ( MAXX ( _tiers, [@AOV] ) / 1e6, "0.00" ) & "M ₫ across tiers."
+			    )
+		displayFolder: Customer Analysis
+
+	/// Sentence for the acquisition chart: strongest source by revenue and by revenue per customer.
+	measure 'Acquisition Insight' =
+			VAR _sources =
+			    FILTER (
+			        ADDCOLUMNS ( VALUES ( 'CustomersTable'[Acquisition_Source] ), "@Revenue", [Total Revenue], "@PerCustomer", [Revenue per Customer] ),
+			        [@Revenue] > 0 && NOT ISBLANK ( 'CustomersTable'[Acquisition_Source] )
+			    )
+			VAR _topRevenue = TOPN ( 1, _sources, [@Revenue], DESC )
+			VAR _topPer = TOPN ( 1, _sources, [@PerCustomer], DESC )
+			RETURN
+			    IF (
+			        COUNTROWS ( _sources ) > 1,
+			        MAXX ( _topRevenue, 'CustomersTable'[Acquisition_Source] ) & " brings the most revenue, while "
+			            & MAXX ( _topPer, 'CustomersTable'[Acquisition_Source] ) & " has the highest revenue per customer ("
+			            & FORMAT ( MAXX ( _topPer, [@PerCustomer] ) / 1e6, "0.0" ) & "M ₫)."
+			    )
+		displayFolder: Customer Analysis
+
+	/// Sentence for the segment chart: how many champions and how many customers are at risk.
+	measure 'Segment Insight' =
+			VAR _customers =
+			    ADDCOLUMNS ( VALUES ( 'SalesTable'[Customer_ID] ), "@Segment", [Customer Segment] )
+			VAR _champions = COUNTROWS ( FILTER ( _customers, [@Segment] = "Champion" ) ) + 0
+			VAR _atRisk = COUNTROWS ( FILTER ( _customers, [@Segment] = "At risk" ) ) + 0
+			VAR _total = COUNTROWS ( _customers )
+			RETURN
+			    IF (
+			        _total > 0,
+			        FORMAT ( _champions, "#,0" ) & " champions drive the business, while " & FORMAT ( _atRisk, "#,0" )
+			            & " customers have not ordered in the last 90 days of the selection."
+			    )
+		displayFolder: Customer Analysis
+
+	/// Upper bound for the Pareto column axis so the cumulative line stays above the columns.
+	measure 'Customer Pareto Axis Max' =
+			MAXX ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Revenue] ) * 1.7
+		formatString: #,0
+		displayFolder: Customer Analysis
+
+	/// Member tier of the customer in the current row.
+	measure 'Member Tier Label' =
+			SELECTEDVALUE ( 'CustomersTable'[Member_Tier], "—" )
+		displayFolder: Customer Analysis
+
+	/// City of the customer in the current row.
+	measure 'Customer City Label' =
+			SELECTEDVALUE ( 'CustomersTable'[City], "—" )
+		displayFolder: Customer Analysis
+
 	column Transaction_ID
 		dataType: string
 		lineageTag: cdfbfe27-622c-494d-b35c-c4d1dcc37d03

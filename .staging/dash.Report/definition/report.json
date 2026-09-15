@@ -159,6 +159,41 @@
           "name": "pa_calendar.svg",
           "path": "pa_calendar.svg",
           "type": "Image"
+        },
+        {
+          "name": "ca_customers.svg",
+          "path": "ca_customers.svg",
+          "type": "Image"
+        },
+        {
+          "name": "ca_revenue.svg",
+          "path": "ca_revenue.svg",
+          "type": "Image"
+        },
+        {
+          "name": "ca_order.svg",
+          "path": "ca_order.svg",
+          "type": "Image"
+        },
+        {
+          "name": "ca_frequency.svg",
+          "path": "ca_frequency.svg",
+          "type": "Image"
+        },
+        {
+          "name": "ca_repeat.svg",
+          "path": "ca_repeat.svg",
+          "type": "Image"
+        },
+        {
+          "name": "ca_bars.svg",
+          "path": "ca_bars.svg",
+          "type": "Image"
+        },
+        {
+          "name": "ca_calendar.svg",
+          "path": "ca_calendar.svg",
+          "type": "Image"
         }
       ]
     }
