@@ -229,6 +229,16 @@
           "name": "mk_tag.svg",
           "path": "mk_tag.svg",
           "type": "Image"
+        },
+        {
+          "name": "ov_trend.svg",
+          "path": "ov_trend.svg",
+          "type": "Image"
+        },
+        {
+          "name": "ov_margin.svg",
+          "path": "ov_margin.svg",
+          "type": "Image"
         }
       ]
     }

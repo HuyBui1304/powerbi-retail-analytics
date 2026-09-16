@@ -236,7 +236,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#0F1F3D'"
+                      "Value": "'#0F2A5F'"
                     }
                   }
                 }
@@ -259,7 +259,7 @@
             "showBlankAs": {
               "expr": {
                 "Literal": {
-                  "Value": "'–'"
+                  "Value": "'\u2013'"
                 }
               }
             }

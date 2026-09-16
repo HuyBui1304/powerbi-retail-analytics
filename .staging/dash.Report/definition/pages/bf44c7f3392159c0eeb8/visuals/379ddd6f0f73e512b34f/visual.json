@@ -356,7 +356,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#EA580C'"
+                      "Value": "'#DC2626'"
                     }
                   }
                 }
