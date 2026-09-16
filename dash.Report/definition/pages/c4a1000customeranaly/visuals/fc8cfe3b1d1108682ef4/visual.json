@@ -28,25 +28,8 @@
               },
               "queryRef": "CustomersTable.Member_Tier",
               "nativeQueryRef": "Member_Tier",
+              "active": true,
               "displayName": "Member tier"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "SalesTable"
-                    }
-                  },
-                  "Property": "Total Revenue"
-                }
-              },
-              "queryRef": "SalesTable.Total Revenue",
-              "nativeQueryRef": "Total Revenue"
             }
           ]
         },
@@ -95,6 +78,24 @@
               "nativeQueryRef": "Repeat Rate"
             }
           ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SalesTable"
+                    }
+                  },
+                  "Property": "Total Revenue"
+                }
+              },
+              "queryRef": "SalesTable.Total Revenue",
+              "nativeQueryRef": "Total Revenue"
+            }
+          ]
         }
       },
       "sortDefinition": {
@@ -112,8 +113,7 @@
             },
             "direction": "Descending"
           }
-        ],
-        "isDefaultSort": false
+        ]
       }
     },
     "objects": {

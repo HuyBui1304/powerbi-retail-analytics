@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "CustomersTable.Member_Tier",
-              "nativeQueryRef": "Member_Tier"
+              "nativeQueryRef": "Member_Tier",
+              "active": true
             }
           ]
         }

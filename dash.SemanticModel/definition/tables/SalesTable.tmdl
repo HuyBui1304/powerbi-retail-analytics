@@ -1031,6 +1031,7 @@ table SalesTable
 			            & " of revenue); " & FORMAT ( [High Value At Risk], "#,0" ) & " of them spend above average."
 			    )
 		displayFolder: Customer Retention
+		lineageTag: 6b4bd6a2-0fee-49a8-8949-631597487fad
 
 	/// Customers whose first ever order falls inside the selected period.
 	measure 'First-time Buyers' =
@@ -1069,6 +1070,7 @@ table SalesTable
 			            & IF ( NOT ISBLANK ( _returned ), ", and returned orders only " & FORMAT ( _returned, "0.0" ), "" ) & "."
 			    )
 		displayFolder: Customer Retention
+		lineageTag: d5c00d18-02d0-4c12-bf40-4c3109aaebd4
 
 	/// Member tier, shown only for customers flagged as At risk.
 	measure 'Win-back Tier' = IF ( [Customer Segment] = "At risk", [Member Tier Label] )

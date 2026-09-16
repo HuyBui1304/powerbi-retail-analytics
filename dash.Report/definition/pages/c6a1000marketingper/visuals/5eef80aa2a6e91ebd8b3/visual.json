@@ -28,43 +28,8 @@
               },
               "queryRef": "MarketingFunnelTable.Campaign",
               "nativeQueryRef": "Campaign",
+              "active": true,
               "displayName": "Campaign"
-            }
-          ]
-        },
-        "X": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "MarketingFunnelTable"
-                    }
-                  },
-                  "Property": "Cost per Order"
-                }
-              },
-              "queryRef": "MarketingFunnelTable.Cost per Order",
-              "nativeQueryRef": "Cost per Order"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "MarketingFunnelTable"
-                    }
-                  },
-                  "Property": "Conversion Rate"
-                }
-              },
-              "queryRef": "MarketingFunnelTable.Conversion Rate",
-              "nativeQueryRef": "Conversion Rate"
             }
           ]
         },
@@ -83,6 +48,43 @@
               },
               "queryRef": "MarketingFunnelTable.Funnel Orders",
               "nativeQueryRef": "Funnel Orders"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MarketingFunnelTable"
+                    }
+                  },
+                  "Property": "Cost per Order"
+                }
+              },
+              "queryRef": "MarketingFunnelTable.Cost per Order",
+              "nativeQueryRef": "Cost per Order",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MarketingFunnelTable"
+                    }
+                  },
+                  "Property": "Conversion Rate"
+                }
+              },
+              "queryRef": "MarketingFunnelTable.Conversion Rate",
+              "nativeQueryRef": "Conversion Rate"
             }
           ]
         }

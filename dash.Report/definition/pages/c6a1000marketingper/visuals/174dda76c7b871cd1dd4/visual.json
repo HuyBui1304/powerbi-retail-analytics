@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "MarketingFunnelTable.Campaign",
-              "nativeQueryRef": "Campaign"
+              "nativeQueryRef": "Campaign",
+              "active": true
             }
           ]
         }

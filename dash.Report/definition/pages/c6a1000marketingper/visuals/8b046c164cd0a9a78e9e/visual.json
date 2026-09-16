@@ -28,6 +28,7 @@
               },
               "queryRef": "MarketingFunnelTable.Channel",
               "nativeQueryRef": "Channel",
+              "active": true,
               "displayName": "Channel"
             }
           ]
@@ -127,8 +128,7 @@
             },
             "direction": "Descending"
           }
-        ],
-        "isDefaultSort": false
+        ]
       }
     },
     "objects": {

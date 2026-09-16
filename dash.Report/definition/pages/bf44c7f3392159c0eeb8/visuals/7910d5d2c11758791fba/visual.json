@@ -259,7 +259,7 @@
             "showBlankAs": {
               "expr": {
                 "Literal": {
-                  "Value": "'\u2013'"
+                  "Value": "'–'"
                 }
               }
             }

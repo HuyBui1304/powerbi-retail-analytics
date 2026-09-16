@@ -28,26 +28,8 @@
               },
               "queryRef": "MarketingFunnelTable.Funding",
               "nativeQueryRef": "Funding",
+              "active": true,
               "displayName": "Funding"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "MarketingFunnelTable"
-                    }
-                  },
-                  "Property": "Funnel Orders"
-                }
-              },
-              "queryRef": "MarketingFunnelTable.Funnel Orders",
-              "nativeQueryRef": "Funnel Orders",
-              "displayName": "Orders"
             }
           ]
         },
@@ -80,6 +62,25 @@
               },
               "queryRef": "MarketingFunnelTable.Conversion Rate",
               "nativeQueryRef": "Conversion Rate"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MarketingFunnelTable"
+                    }
+                  },
+                  "Property": "Funnel Orders"
+                }
+              },
+              "queryRef": "MarketingFunnelTable.Funnel Orders",
+              "nativeQueryRef": "Funnel Orders",
+              "displayName": "Orders"
             }
           ]
         }

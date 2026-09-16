@@ -28,26 +28,8 @@
               },
               "queryRef": "FunnelStage.Stage",
               "nativeQueryRef": "Stage",
+              "active": true,
               "displayName": "Stage"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "MarketingFunnelTable"
-                    }
-                  },
-                  "Property": "Funnel Value"
-                }
-              },
-              "queryRef": "MarketingFunnelTable.Funnel Value",
-              "nativeQueryRef": "Funnel Value",
-              "displayName": "Sessions"
             }
           ]
         },
@@ -67,6 +49,25 @@
               "queryRef": "MarketingFunnelTable.Funnel Step Rate",
               "nativeQueryRef": "Funnel Step Rate",
               "displayName": "Kept from previous step"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MarketingFunnelTable"
+                    }
+                  },
+                  "Property": "Funnel Value"
+                }
+              },
+              "queryRef": "MarketingFunnelTable.Funnel Value",
+              "nativeQueryRef": "Funnel Value",
+              "displayName": "Sessions"
             }
           ]
         }

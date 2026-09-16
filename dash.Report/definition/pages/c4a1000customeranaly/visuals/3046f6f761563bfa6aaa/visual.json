@@ -28,43 +28,8 @@
               },
               "queryRef": "SalesTable.Customer_ID",
               "nativeQueryRef": "Customer_ID",
+              "active": true,
               "displayName": "Customer"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "SalesTable"
-                    }
-                  },
-                  "Property": "Total Revenue"
-                }
-              },
-              "queryRef": "SalesTable.Total Revenue",
-              "nativeQueryRef": "Total Revenue"
-            }
-          ]
-        },
-        "Y2": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "SalesTable"
-                    }
-                  },
-                  "Property": "Cumulative Revenue %"
-                }
-              },
-              "queryRef": "SalesTable.Cumulative Revenue %",
-              "nativeQueryRef": "Cumulative Revenue %"
             }
           ]
         },
@@ -113,6 +78,42 @@
               "nativeQueryRef": "Customer Segment"
             }
           ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SalesTable"
+                    }
+                  },
+                  "Property": "Total Revenue"
+                }
+              },
+              "queryRef": "SalesTable.Total Revenue",
+              "nativeQueryRef": "Total Revenue"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SalesTable"
+                    }
+                  },
+                  "Property": "Cumulative Revenue %"
+                }
+              },
+              "queryRef": "SalesTable.Cumulative Revenue %",
+              "nativeQueryRef": "Cumulative Revenue %"
+            }
+          ]
         }
       },
       "sortDefinition": {
@@ -130,8 +131,7 @@
             },
             "direction": "Descending"
           }
-        ],
-        "isDefaultSort": false
+        ]
       }
     },
     "objects": {

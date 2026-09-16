@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "SalesTable.Sales_Channel",
-              "nativeQueryRef": "Sales_Channel"
+              "nativeQueryRef": "Sales_Channel",
+              "active": true
             }
           ]
         }

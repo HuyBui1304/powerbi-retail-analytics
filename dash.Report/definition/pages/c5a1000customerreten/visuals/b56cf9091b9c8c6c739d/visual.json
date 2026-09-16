@@ -27,7 +27,40 @@
                 }
               },
               "queryRef": "DateTable.Month",
-              "nativeQueryRef": "Month"
+              "nativeQueryRef": "Month",
+              "active": true
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SalesTable"
+                    }
+                  },
+                  "Property": "Active Customers"
+                }
+              },
+              "queryRef": "SalesTable.Active Customers",
+              "nativeQueryRef": "Active Customers"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SalesTable"
+                    }
+                  },
+                  "Property": "Total Revenue"
+                }
+              },
+              "queryRef": "SalesTable.Total Revenue",
+              "nativeQueryRef": "Total Revenue"
             }
           ]
         },
@@ -62,38 +95,6 @@
               "queryRef": "SalesTable.Repeat Buyers",
               "nativeQueryRef": "Repeat Buyers",
               "displayName": "Repeat"
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "SalesTable"
-                    }
-                  },
-                  "Property": "Active Customers"
-                }
-              },
-              "queryRef": "SalesTable.Active Customers",
-              "nativeQueryRef": "Active Customers"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "SalesTable"
-                    }
-                  },
-                  "Property": "Total Revenue"
-                }
-              },
-              "queryRef": "SalesTable.Total Revenue",
-              "nativeQueryRef": "Total Revenue"
             }
           ]
         }

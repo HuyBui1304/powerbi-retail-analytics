@@ -13,25 +13,6 @@
     "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Rows": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "CustomersTable"
-                    }
-                  },
-                  "Property": "Preferred_Channel"
-                }
-              },
-              "queryRef": "CustomersTable.Preferred_Channel",
-              "nativeQueryRef": "Preferred_Channel",
-              "displayName": "Declared"
-            }
-          ]
-        },
         "Columns": {
           "projections": [
             {
@@ -47,7 +28,28 @@
               },
               "queryRef": "SalesTable.Sales_Channel",
               "nativeQueryRef": "Sales_Channel",
+              "active": true,
               "displayName": "Actual"
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CustomersTable"
+                    }
+                  },
+                  "Property": "Preferred_Channel"
+                }
+              },
+              "queryRef": "CustomersTable.Preferred_Channel",
+              "nativeQueryRef": "Preferred_Channel",
+              "active": true,
+              "displayName": "Declared"
             }
           ]
         },

@@ -28,26 +28,8 @@
               },
               "queryRef": "SalesTable.Delivery_Days",
               "nativeQueryRef": "Delivery_Days",
+              "active": true,
               "displayName": "Days late"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "SalesTable"
-                    }
-                  },
-                  "Property": "Happy Orders %"
-                }
-              },
-              "queryRef": "SalesTable.Happy Orders %",
-              "nativeQueryRef": "Happy Orders %",
-              "displayName": "4-5 star orders"
             }
           ]
         },
@@ -80,6 +62,25 @@
               },
               "queryRef": "SalesTable.Rated Orders",
               "nativeQueryRef": "Rated Orders"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SalesTable"
+                    }
+                  },
+                  "Property": "Happy Orders %"
+                }
+              },
+              "queryRef": "SalesTable.Happy Orders %",
+              "nativeQueryRef": "Happy Orders %",
+              "displayName": "4-5 star orders"
             }
           ]
         }

@@ -27,7 +27,40 @@
                 }
               },
               "queryRef": "DateTable.Month",
-              "nativeQueryRef": "Month"
+              "nativeQueryRef": "Month",
+              "active": true
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SalesTable"
+                    }
+                  },
+                  "Property": "Profit Margin"
+                }
+              },
+              "queryRef": "SalesTable.Profit Margin",
+              "nativeQueryRef": "Profit Margin"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SalesTable"
+                    }
+                  },
+                  "Property": "Total Orders"
+                }
+              },
+              "queryRef": "SalesTable.Total Orders",
+              "nativeQueryRef": "Total Orders"
             }
           ]
         },
@@ -64,38 +97,6 @@
               },
               "queryRef": "SalesTable.Total Profit",
               "nativeQueryRef": "Total Profit"
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "SalesTable"
-                    }
-                  },
-                  "Property": "Profit Margin"
-                }
-              },
-              "queryRef": "SalesTable.Profit Margin",
-              "nativeQueryRef": "Profit Margin"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "SalesTable"
-                    }
-                  },
-                  "Property": "Total Orders"
-                }
-              },
-              "queryRef": "SalesTable.Total Orders",
-              "nativeQueryRef": "Total Orders"
             }
           ]
         }

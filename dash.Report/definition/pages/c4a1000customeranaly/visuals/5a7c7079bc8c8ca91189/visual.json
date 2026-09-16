@@ -28,6 +28,7 @@
               },
               "queryRef": "CustomersTable.Age_Group",
               "nativeQueryRef": "Age_Group",
+              "active": true,
               "displayName": "Age group"
             }
           ]
@@ -47,24 +48,6 @@
               },
               "queryRef": "CustomersTable.Gender",
               "nativeQueryRef": "Gender"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "SalesTable"
-                    }
-                  },
-                  "Property": "Total Revenue"
-                }
-              },
-              "queryRef": "SalesTable.Total Revenue",
-              "nativeQueryRef": "Total Revenue"
             }
           ]
         },
@@ -97,6 +80,24 @@
               },
               "queryRef": "SalesTable.Avg Order Value",
               "nativeQueryRef": "Avg Order Value"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SalesTable"
+                    }
+                  },
+                  "Property": "Total Revenue"
+                }
+              },
+              "queryRef": "SalesTable.Total Revenue",
+              "nativeQueryRef": "Total Revenue"
             }
           ]
         }

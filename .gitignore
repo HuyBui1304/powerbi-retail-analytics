@@ -1,2 +1,9 @@
+# Power BI local state and data cache
 **/.pbi/localSettings.json
 **/.pbi/cache.abf
+
+# working copy used while editing the report definition
+.staging/
+
+# macOS
+.DS_Store

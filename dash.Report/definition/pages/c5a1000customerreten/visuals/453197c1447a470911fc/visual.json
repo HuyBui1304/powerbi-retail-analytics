@@ -28,6 +28,7 @@
               },
               "queryRef": "CustomersTable.Customer_ID",
               "nativeQueryRef": "Customer_ID",
+              "active": true,
               "displayName": "Customer"
             }
           ]
@@ -112,8 +113,7 @@
             },
             "direction": "Descending"
           }
-        ],
-        "isDefaultSort": false
+        ]
       }
     },
     "objects": {

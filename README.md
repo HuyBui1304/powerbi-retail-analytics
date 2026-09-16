@@ -17,7 +17,7 @@ so every page, measure and style rule in this repository is plain text and revie
 | Source | `Retail Dataset.xlsx` — 5 sheets (Sales, Customers, Products, Marketing_Funnel, Data_Dictionary) |
 | Period | 1 Jan 2025 – 31 Dec 2025 |
 | Grain | one row per order line |
-| Volume | 1,650 order lines → 1,181 orders, 388 identified customers, 40 products |
+| Volume | 1,650 order lines → 1,181 orders, 2,283 units, 388 identified customers, 40 products |
 | Marketing | 156 weekly rows across 3 digital channels and 10 campaigns |
 
 **Headline figures:** 1.11bn ₫ revenue · 543.5M ₫ gross profit · 49.17% margin ·
@@ -52,8 +52,22 @@ Two calculated columns support the customer analysis:
 | 5 | **Customer Retention** | Do they come back, are they satisfied, and who is going quiet? |
 | 6 | **Marketing Performance** | Where does the ad budget go and what does it buy? |
 
+### 1 · Revenue & Profit
+![Revenue and Profit](docs/img/02-revenue-profit.png)
+
+### 2 · Performance Breakdown
+![Performance Breakdown](docs/img/03-performance-breakdown.png)
+
+### 3 · Profitability Analysis
+![Profitability Analysis](docs/img/04-profitability-analysis.png)
+
+### 4 · Customer Analysis
 ![Customer Analysis](docs/img/05-customer-analysis.png)
+
+### 5 · Customer Retention
 ![Customer Retention](docs/img/06-customer-retention.png)
+
+### 6 · Marketing Performance
 ![Marketing Performance](docs/img/07-marketing-performance.png)
 
 ---

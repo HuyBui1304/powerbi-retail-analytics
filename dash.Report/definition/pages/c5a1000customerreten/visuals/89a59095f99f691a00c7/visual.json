@@ -28,6 +28,7 @@
               },
               "queryRef": "SalesTable.Customer_Rating",
               "nativeQueryRef": "Customer_Rating",
+              "active": true,
               "displayName": "Stars"
             }
           ]

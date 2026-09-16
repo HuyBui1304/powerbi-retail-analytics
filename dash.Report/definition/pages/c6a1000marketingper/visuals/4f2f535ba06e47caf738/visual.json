@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "MarketingFunnelTable.Channel",
-              "nativeQueryRef": "Channel"
+              "nativeQueryRef": "Channel",
+              "active": true
             }
           ]
         }

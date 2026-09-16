@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "DateTable.Month",
-              "nativeQueryRef": "Month"
+              "nativeQueryRef": "Month",
+              "active": true
             }
           ]
         }

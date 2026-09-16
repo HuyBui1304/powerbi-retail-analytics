@@ -28,7 +28,40 @@
               },
               "queryRef": "MarketingFunnelTable.Week_Start",
               "nativeQueryRef": "Week_Start",
+              "active": true,
               "displayName": "Week"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MarketingFunnelTable"
+                    }
+                  },
+                  "Property": "Cost per Order"
+                }
+              },
+              "queryRef": "MarketingFunnelTable.Cost per Order",
+              "nativeQueryRef": "Cost per Order"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MarketingFunnelTable"
+                    }
+                  },
+                  "Property": "Conversion Rate"
+                }
+              },
+              "queryRef": "MarketingFunnelTable.Conversion Rate",
+              "nativeQueryRef": "Conversion Rate"
             }
           ]
         },
@@ -65,38 +98,6 @@
               },
               "queryRef": "MarketingFunnelTable.Funnel Orders",
               "nativeQueryRef": "Funnel Orders"
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "MarketingFunnelTable"
-                    }
-                  },
-                  "Property": "Cost per Order"
-                }
-              },
-              "queryRef": "MarketingFunnelTable.Cost per Order",
-              "nativeQueryRef": "Cost per Order"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "MarketingFunnelTable"
-                    }
-                  },
-                  "Property": "Conversion Rate"
-                }
-              },
-              "queryRef": "MarketingFunnelTable.Conversion Rate",
-              "nativeQueryRef": "Conversion Rate"
             }
           ]
         }
