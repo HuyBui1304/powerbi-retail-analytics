@@ -25,3 +25,6 @@ relationship 57c26ac2-cd47-e23b-9c38-95afc0f58b57
 	fromColumn: SalesTable.Order_Date
 	toColumn: DateTable.Date
 
+relationship db8240f0-56cc-49fc-9c6f-e1d8775c450f
+	fromColumn: MarketingFunnelTable.Week_Start
+	toColumn: DateTable.Date

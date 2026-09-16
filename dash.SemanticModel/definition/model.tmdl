@@ -8,11 +8,13 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["SalesTable","ProductsTable","CustomersTable"]
+annotation PBI_QueryOrder = ["SalesTable","ProductsTable","CustomersTable","MarketingFunnelTable"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
 ref table SalesTable
+ref table MarketingFunnelTable
+ref table FunnelStage
 ref table ProductsTable
 ref table DateTableTemplate_75ff84a6-1d8c-42c4-87ee-d86322563324
 ref table LocalDateTable_1e5b2d8f-86ff-4b44-8125-f33c984a499b

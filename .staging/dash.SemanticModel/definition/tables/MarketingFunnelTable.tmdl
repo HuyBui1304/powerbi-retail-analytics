@@ -1,0 +1,299 @@
+table MarketingFunnelTable
+	lineageTag: 0f1bed0a-72a3-4a7d-b74c-a192086f0d4a
+
+	column Week_Start
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2cf44903-539d-4b6c-a455-b2c312a8e921
+		summarizeBy: none
+		sourceColumn: Week_Start
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Channel
+		dataType: string
+		lineageTag: a048a72a-3c5f-4c3d-84fc-30878bfaeca2
+		summarizeBy: none
+		sourceColumn: Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Campaign
+		dataType: string
+		lineageTag: 7c7181ad-4450-4267-9b8f-4afdb75dcc44
+		summarizeBy: none
+		sourceColumn: Campaign
+
+		annotation SummarizationSetBy = Automatic
+
+	column Visits
+		dataType: int64
+		formatString: 0
+		lineageTag: ed95db30-c0c2-44ef-a591-aa9263eeccaa
+		summarizeBy: sum
+		sourceColumn: Visits
+
+		annotation SummarizationSetBy = Automatic
+
+	column Add_to_Cart
+		dataType: int64
+		formatString: 0
+		lineageTag: 7412a9cf-be6c-43a7-9215-7a2209e58f5b
+		summarizeBy: sum
+		sourceColumn: Add_to_Cart
+
+		annotation SummarizationSetBy = Automatic
+
+	column Checkout
+		dataType: int64
+		formatString: 0
+		lineageTag: 3f2080b1-34bc-47a0-be8a-efe1c307728d
+		summarizeBy: sum
+		sourceColumn: Checkout
+
+		annotation SummarizationSetBy = Automatic
+
+	column Orders
+		dataType: int64
+		formatString: 0
+		lineageTag: d3530dcc-655c-4e2b-ae1f-55411cf0ca0f
+		summarizeBy: sum
+		sourceColumn: Orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ad_Spend
+		dataType: int64
+		formatString: 0
+		lineageTag: 24a0ae30-9b35-4ea1-94ed-a5ebe8255fe2
+		summarizeBy: sum
+		sourceColumn: Ad_Spend
+
+		annotation SummarizationSetBy = Automatic
+
+	column ATC_Rate
+		dataType: double
+		isHidden
+		lineageTag: c5f67cbd-bd43-4a07-84b2-005a56f31a10
+		summarizeBy: none
+		sourceColumn: ATC_Rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column Checkout_Rate
+		dataType: double
+		isHidden
+		lineageTag: fda880bc-e4d5-483d-a771-272b6ed31541
+		summarizeBy: none
+		sourceColumn: Checkout_Rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column Conversion_Rate
+		dataType: double
+		isHidden
+		lineageTag: 3969e9c4-553f-474d-812c-fda75bda7e16
+		summarizeBy: none
+		sourceColumn: Conversion_Rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cost_per_Order
+		dataType: double
+		isHidden
+		lineageTag: 48959d70-41b7-4fe9-944d-d09be22f53be
+		summarizeBy: none
+		sourceColumn: Cost_per_Order
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Paid when the row carries advertising spend, Organic when it does not.
+	column Funding = IF ( 'MarketingFunnelTable'[Ad_Spend] > 0, "Paid", "Organic" )
+		dataType: string
+		lineageTag: 14b83c6d-f7f0-466b-a77f-04607dd8da5c
+		summarizeBy: none
+
+	/// Sessions that landed on a product or store page.
+	measure 'Total Visits' =
+			SUM ( 'MarketingFunnelTable'[Visits] )
+		formatString: #,0
+		displayFolder: Marketing Performance
+
+	/// Sessions that added at least one item to the cart.
+	measure 'Add to Cart' =
+			SUM ( 'MarketingFunnelTable'[Add_to_Cart] )
+		formatString: #,0
+		displayFolder: Marketing Performance
+
+	/// Sessions that reached the checkout step.
+	measure 'Checkout Started' =
+			SUM ( 'MarketingFunnelTable'[Checkout] )
+		formatString: #,0
+		displayFolder: Marketing Performance
+
+	/// Orders reported by the marketing funnel (not the sales ledger).
+	measure 'Funnel Orders' =
+			SUM ( 'MarketingFunnelTable'[Orders] )
+		formatString: #,0
+		displayFolder: Marketing Performance
+
+	/// Advertising money spent.
+	measure 'Ad Spend' =
+			SUM ( 'MarketingFunnelTable'[Ad_Spend] )
+		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
+		displayFolder: Marketing Performance
+
+	/// Share of visits that add something to the cart.
+	measure 'ATC Rate' =
+			DIVIDE ( [Add to Cart], [Total Visits] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Marketing Performance
+
+	/// Share of carts that reach checkout.
+	measure 'Checkout Rate' =
+			DIVIDE ( [Checkout Started], [Add to Cart] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Marketing Performance
+
+	/// Share of checkouts that turn into an order.
+	measure 'Order Rate' =
+			DIVIDE ( [Funnel Orders], [Checkout Started] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Marketing Performance
+
+	/// Share of visits that end in an order.
+	measure 'Conversion Rate' =
+			DIVIDE ( [Funnel Orders], [Total Visits] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Marketing Performance
+
+	/// Advertising cost for each order the funnel reports.
+	measure 'Cost per Order' =
+			DIVIDE ( [Ad Spend], [Funnel Orders] )
+		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
+		displayFolder: Marketing Performance
+
+	/// Advertising cost for each visit.
+	measure 'Cost per Visit' =
+			DIVIDE ( [Ad Spend], [Total Visits] )
+		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
+		displayFolder: Marketing Performance
+
+	/// Orders from campaigns that carry no advertising spend.
+	measure 'Organic Orders' =
+			CALCULATE ( [Funnel Orders], 'MarketingFunnelTable'[Funding] = "Organic" )
+		formatString: #,0
+		displayFolder: Marketing Performance
+
+	/// Orders from campaigns that carry advertising spend.
+	measure 'Paid Orders' =
+			CALCULATE ( [Funnel Orders], 'MarketingFunnelTable'[Funding] = "Paid" )
+		formatString: #,0
+		displayFolder: Marketing Performance
+
+	/// Share of funnel orders that cost nothing in advertising.
+	measure 'Organic Share' =
+			DIVIDE ( [Organic Orders], [Funnel Orders] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Marketing Performance
+
+	/// Value of the funnel stage on the current row.
+	measure 'Funnel Value' =
+			SWITCH (
+			    SELECTEDVALUE ( 'FunnelStage'[Step] ),
+			    1, [Total Visits],
+			    2, [Add to Cart],
+			    3, [Checkout Started],
+			    4, [Funnel Orders]
+			)
+		formatString: #,0
+		displayFolder: Marketing Performance
+
+	/// Share of the previous funnel stage that made it to this one.
+	measure 'Funnel Step Rate' =
+			VAR _step = SELECTEDVALUE ( 'FunnelStage'[Step] )
+			RETURN
+			    SWITCH ( _step, 1, 1, 2, [ATC Rate], 3, [Checkout Rate], 4, [Order Rate] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Marketing Performance
+
+	/// Caption: how visits translate into carts.
+	measure 'Visits Caption' =
+			FORMAT ( [ATC Rate], "0.0%" ) & " of them add something to the cart"
+		displayFolder: Marketing Performance
+
+	/// Caption: the full funnel in one line.
+	measure 'Conversion Rate Caption' =
+			"visit → cart → checkout → order"
+		displayFolder: Marketing Performance
+
+	/// Caption: how many orders came without advertising spend.
+	measure 'Funnel Orders Caption' =
+			FORMAT ( [Organic Share], "0.0%" ) & " of them came with no ad spend"
+		displayFolder: Marketing Performance
+
+	/// Caption: spend per visit.
+	measure 'Ad Spend Caption' =
+			FORMAT ( [Cost per Visit], "#,0" ) & " ₫ for every visit"
+		displayFolder: Marketing Performance
+
+	/// Caption: paid orders behind the average cost.
+	measure 'Cost per Order Caption' =
+			FORMAT ( [Paid Orders], "#,0" ) & " paid orders"
+		displayFolder: Marketing Performance
+
+	/// Sentence for the funnel chart: where the biggest leak is.
+	measure 'Marketing Funnel Insight' =
+			"Out of " & FORMAT ( [Total Visits], "#,0" ) & " visits, " & FORMAT ( [ATC Rate], "0.0%" ) & " add to cart, "
+			    & FORMAT ( [Checkout Rate], "0.0%" ) & " of those reach checkout and " & FORMAT ( [Order Rate], "0.0%" )
+			    & " of those order — so the first step loses " & FORMAT ( 1 - [ATC Rate], "0.0%" ) & " of everyone."
+		displayFolder: Marketing Performance
+
+	/// Sentence for the channel scorecard: cheapest and dearest channel.
+	measure 'Marketing Channel Insight' =
+			VAR _channels = FILTER ( ADDCOLUMNS ( VALUES ( 'MarketingFunnelTable'[Channel] ), "@Cost", [Cost per Order], "@Orders", [Funnel Orders] ), [@Orders] > 0 && [@Cost] > 0 )
+			VAR _best = TOPN ( 1, _channels, [@Cost], ASC )
+			VAR _worst = TOPN ( 1, _channels, [@Cost], DESC )
+			RETURN
+			    IF (
+			        COUNTROWS ( _channels ) > 1,
+			        MAXX ( _best, 'MarketingFunnelTable'[Channel] ) & " buys an order for " & FORMAT ( MINX ( _channels, [@Cost] ), "#,0" ) & " ₫, while "
+			            & MAXX ( _worst, 'MarketingFunnelTable'[Channel] ) & " pays " & FORMAT ( MAXX ( _channels, [@Cost] ), "#,0" ) & " ₫ for the same thing."
+			    )
+		displayFolder: Marketing Performance
+
+	/// Sentence for the campaign chart: the most and least efficient paid campaign.
+	measure 'Campaign Insight' =
+			VAR _paid = FILTER ( ADDCOLUMNS ( VALUES ( 'MarketingFunnelTable'[Campaign] ), "@Cost", [Cost per Order], "@Orders", [Funnel Orders] ), [@Orders] > 0 && [@Cost] > 0 )
+			VAR _best = TOPN ( 1, _paid, [@Cost], ASC )
+			VAR _worst = TOPN ( 1, _paid, [@Cost], DESC )
+			RETURN
+			    IF (
+			        COUNTROWS ( _paid ) > 1,
+			        "Cheapest paid campaign is " & MAXX ( _best, 'MarketingFunnelTable'[Campaign] ) & " at " & FORMAT ( MINX ( _paid, [@Cost] ), "#,0" ) & " ₫ per order; "
+			            & MAXX ( _worst, 'MarketingFunnelTable'[Campaign] ) & " costs " & FORMAT ( MAXX ( _paid, [@Cost] ), "#,0" ) & " ₫, "
+			            & FORMAT ( DIVIDE ( MAXX ( _paid, [@Cost] ), MINX ( _paid, [@Cost] ) ), "0.0" ) & "× more."
+			    )
+		displayFolder: Marketing Performance
+
+	/// Sentence for the paid vs organic split.
+	measure 'Funding Insight' =
+			FORMAT ( [Organic Orders], "#,0" ) & " orders (" & FORMAT ( [Organic Share], "0.0%" ) & ") arrive with no ad spend at all."
+		displayFolder: Marketing Performance
+
+	partition MarketingFunnelTable = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("Y:\Desktop\Project_DA\Retail Dataset.xlsx"), null, true),
+				    MarketingFunnelTable_Table = Source{[Item="MarketingFunnelTable",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(MarketingFunnelTable_Table,{{"Week_Start", type date}, {"Channel", type text}, {"Campaign", type text}, {"Visits", Int64.Type}, {"Add_to_Cart", Int64.Type}, {"Checkout", Int64.Type}, {"Orders", Int64.Type}, {"Ad_Spend", Int64.Type}, {"ATC_Rate", type number}, {"Checkout_Rate", type number}, {"Conversion_Rate", type number}, {"Cost_per_Order", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -209,6 +209,26 @@
           "name": "cr_star.svg",
           "path": "cr_star.svg",
           "type": "Image"
+        },
+        {
+          "name": "mk_visits.svg",
+          "path": "mk_visits.svg",
+          "type": "Image"
+        },
+        {
+          "name": "mk_funnel.svg",
+          "path": "mk_funnel.svg",
+          "type": "Image"
+        },
+        {
+          "name": "mk_spend.svg",
+          "path": "mk_spend.svg",
+          "type": "Image"
+        },
+        {
+          "name": "mk_tag.svg",
+          "path": "mk_tag.svg",
+          "type": "Image"
         }
       ]
     }
