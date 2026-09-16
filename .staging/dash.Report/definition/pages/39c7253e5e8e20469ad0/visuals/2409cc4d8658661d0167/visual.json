@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
   "name": "2409cc4d8658661d0167",
   "position": {
-    "x": 662,
-    "y": 14,
+    "x": 993.0,
+    "y": 21.0,
     "z": 300,
-    "height": 24,
-    "width": 120,
+    "height": 36.0,
+    "width": 180.0,
     "tabOrder": 300
   },
   "visual": {
@@ -22,7 +22,7 @@
                     "value": "Quarter",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
-                      "fontSize": "10.5pt",
+                      "fontSize": "15.8pt",
                       "color": "#0F2A5F"
                     }
                   }

@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
   "name": "1778fa8eba3e66f85811",
   "position": {
-    "x": 48,
-    "y": 908,
+    "x": 118,
+    "y": 900,
     "z": 7000,
-    "height": 52,
-    "width": 560,
+    "height": 48,
+    "width": 478,
     "tabOrder": 7000
   },
   "visual": {
@@ -22,7 +22,7 @@
                     "value": "Who the customers are and which ones carry the revenue",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "11.5pt",
+                      "fontSize": "12pt",
                       "color": "#5B6B85"
                     }
                   }

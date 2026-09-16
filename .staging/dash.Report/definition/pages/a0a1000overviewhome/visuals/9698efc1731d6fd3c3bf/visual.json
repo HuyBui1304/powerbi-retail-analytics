@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
   "name": "9698efc1731d6fd3c3bf",
   "position": {
-    "x": 1366,
-    "y": 856,
+    "x": 1382,
+    "y": 858,
     "z": 8500,
-    "height": 40,
-    "width": 508,
+    "height": 42,
+    "width": 478,
     "tabOrder": 8500
   },
   "visual": {
@@ -22,7 +22,7 @@
                     "value": "Marketing Performance",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
-                      "fontSize": "16pt",
+                      "fontSize": "18pt",
                       "color": "#0F2A5F"
                     }
                   }

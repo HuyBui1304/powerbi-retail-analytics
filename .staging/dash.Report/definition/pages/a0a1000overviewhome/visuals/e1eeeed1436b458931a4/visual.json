@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
   "name": "e1eeeed1436b458931a4",
   "position": {
-    "x": 734,
-    "y": 632,
+    "x": 750,
+    "y": 634,
     "z": 5300,
-    "height": 40,
-    "width": 508,
+    "height": 42,
+    "width": 478,
     "tabOrder": 5300
   },
   "visual": {
@@ -22,7 +22,7 @@
                     "value": "Performance Breakdown",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
-                      "fontSize": "16pt",
+                      "fontSize": "18pt",
                       "color": "#0F2A5F"
                     }
                   }

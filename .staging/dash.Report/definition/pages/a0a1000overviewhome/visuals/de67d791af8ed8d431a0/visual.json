@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
   "name": "de67d791af8ed8d431a0",
   "position": {
-    "x": 1366,
-    "y": 632,
+    "x": 1382,
+    "y": 634,
     "z": 6100,
-    "height": 40,
-    "width": 508,
+    "height": 42,
+    "width": 478,
     "tabOrder": 6100
   },
   "visual": {
@@ -22,7 +22,7 @@
                     "value": "Profitability Analysis",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
-                      "fontSize": "16pt",
+                      "fontSize": "18pt",
                       "color": "#0F2A5F"
                     }
                   }

@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
   "name": "69ba6c1579086bebb545",
   "position": {
-    "x": 1312,
-    "y": 684,
+    "x": 1382,
+    "y": 676,
     "z": 6200,
-    "height": 52,
-    "width": 560,
+    "height": 48,
+    "width": 478,
     "tabOrder": 6200
   },
   "visual": {
@@ -22,7 +22,7 @@
                     "value": "Discount, returns and cost pressure on the margin",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "11.5pt",
+                      "fontSize": "12pt",
                       "color": "#5B6B85"
                     }
                   }

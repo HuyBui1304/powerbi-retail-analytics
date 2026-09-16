@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
   "name": "13c7a260ec87bb9039d9",
   "position": {
-    "x": 102,
-    "y": 632,
+    "x": 118,
+    "y": 634,
     "z": 4500,
-    "height": 40,
-    "width": 508,
+    "height": 42,
+    "width": 478,
     "tabOrder": 4500
   },
   "visual": {
@@ -22,7 +22,7 @@
                     "value": "Revenue & Profit",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
-                      "fontSize": "16pt",
+                      "fontSize": "18pt",
                       "color": "#0F2A5F"
                     }
                   }

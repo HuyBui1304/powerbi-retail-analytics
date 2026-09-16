@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
   "name": "52ae57495b18e3ea30e9",
   "position": {
-    "x": 502,
-    "y": 752,
+    "x": 482,
+    "y": 748,
     "z": 4800,
-    "height": 32,
-    "width": 106,
+    "height": 34,
+    "width": 124,
     "tabOrder": 4800
   },
   "visual": {
@@ -22,7 +22,7 @@
                     "value": "Open  ›",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
-                      "fontSize": "12pt",
+                      "fontSize": "13pt",
                       "color": "#1E6FE0"
                     }
                   }

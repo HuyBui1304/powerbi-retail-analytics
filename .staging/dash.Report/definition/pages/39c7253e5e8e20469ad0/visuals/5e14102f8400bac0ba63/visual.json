@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
   "name": "5e14102f8400bac0ba63",
   "position": {
-    "x": 100,
-    "y": 20,
+    "x": 150.0,
+    "y": 30.0,
     "z": 200,
-    "height": 68,
-    "width": 560,
+    "height": 102.0,
+    "width": 840.0,
     "tabOrder": 200
   },
   "visual": {
@@ -22,7 +22,7 @@
                     "value": "Revenue & Profit Overview",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
-                      "fontSize": "20pt",
+                      "fontSize": "30.0pt",
                       "color": "#0F2A5F"
                     }
                   }
@@ -34,7 +34,7 @@
                     "value": "Track business performance and profitability over time",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "11pt",
+                      "fontSize": "16.5pt",
                       "color": "#5B6B85"
                     }
                   }

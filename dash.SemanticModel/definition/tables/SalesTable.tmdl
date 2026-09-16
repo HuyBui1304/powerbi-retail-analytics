@@ -1021,11 +1021,16 @@ table SalesTable
 
 	/// Sentence for the win-back list: how much revenue sits with at-risk customers.
 	measure 'At Risk Insight' =
-			FORMAT ( [Customers At Risk], "#,0" ) & " customers have gone quiet for more than 90 days, carrying "
-			    & FORMAT ( [Revenue At Risk] / 1e6, "#,0" ) & "M ₫ (" & FORMAT ( DIVIDE ( [Revenue At Risk], [Total Revenue] ), "0.0%" ) & " of revenue); "
-			    & FORMAT ( [High Value At Risk], "#,0" ) & " of them spend above average."
+			VAR _count = [Customers At Risk]
+			RETURN
+			    IF (
+			        _count = 0,
+			        "No customer has been quiet for more than 90 days in this selection. Clear the month filter to see the full-year picture.",
+			        FORMAT ( _count, "#,0" ) & " customers have gone quiet for more than 90 days, carrying "
+			            & FORMAT ( [Revenue At Risk] / 1e6, "#,0" ) & "M ₫ (" & FORMAT ( DIVIDE ( [Revenue At Risk], [Total Revenue] ), "0.0%" )
+			            & " of revenue); " & FORMAT ( [High Value At Risk], "#,0" ) & " of them spend above average."
+			    )
 		displayFolder: Customer Retention
-		lineageTag: f09eee66-1a07-4fff-af07-501dfb33fd34
 
 	/// Customers whose first ever order falls inside the selected period.
 	measure 'First-time Buyers' =
@@ -1046,22 +1051,20 @@ table SalesTable
 	/// Sentence for the delivery chart: how late delivery and returns pull ratings down.
 	measure 'Delivery Insight' =
 			VAR _onTime = CALCULATE ( [Avg Customer Rating], 'SalesTable'[Delivery_Days] = "0" )
-			VAR _late =
-			    CALCULATE (
-			        [Avg Customer Rating],
-			        FILTER ( 'SalesTable', NOT ISBLANK ( 'SalesTable'[Delivery_Days] ) && 'SalesTable'[Delivery_Days] <> "0" )
-			    )
-			VAR _lateOrders =
-			    CALCULATE (
-			        [Rated Orders],
-			        FILTER ( 'SalesTable', NOT ISBLANK ( 'SalesTable'[Delivery_Days] ) && 'SalesTable'[Delivery_Days] <> "0" )
-			    )
+			VAR _lateRows = FILTER ( 'SalesTable', NOT ISBLANK ( 'SalesTable'[Delivery_Days] ) && 'SalesTable'[Delivery_Days] <> "0" )
+			VAR _late = CALCULATE ( [Avg Customer Rating], _lateRows )
+			VAR _lateOrders = CALCULATE ( [Rated Orders], _lateRows )
 			VAR _returned = CALCULATE ( [Avg Customer Rating], 'SalesTable'[Order_Status] = "Returned" )
+			VAR _head = "Orders delivered on time average " & FORMAT ( _onTime, "0.0" ) & " stars"
 			RETURN
-			    "Orders delivered on time average " & FORMAT ( _onTime, "0.0" ) & " stars; the " & FORMAT ( _lateOrders, "#,0" )
-			        & " late ones average " & FORMAT ( _late, "0.0" ) & ", and returned orders only " & FORMAT ( _returned, "0.0" ) & "."
+			    IF (
+			        ISBLANK ( _onTime ),
+			        BLANK (),
+			        _head
+			            & IF ( _lateOrders > 0, "; the " & FORMAT ( _lateOrders, "#,0" ) & " late ones average " & FORMAT ( _late, "0.0" ), "; nothing was delivered late" )
+			            & IF ( NOT ISBLANK ( _returned ), ", and returned orders only " & FORMAT ( _returned, "0.0" ), "" ) & "."
+			    )
 		displayFolder: Customer Retention
-		lineageTag: 1994be32-91b5-4eb2-b6d5-d4b1a852b722
 
 	/// Member tier, shown only for customers flagged as At risk.
 	measure 'Win-back Tier' = IF ( [Customer Segment] = "At risk", [Member Tier Label] )
