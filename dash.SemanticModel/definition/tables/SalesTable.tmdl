@@ -620,7 +620,7 @@ table SalesTable
 		lineageTag: 2f7e3253-6e1d-44e7-993f-ea8e697075d2
 
 	/// Customers with at least one order in the current selection.
-	measure 'Active Customers' = DISTINCTCOUNT ( 'SalesTable'[Customer_ID] )
+	measure 'Active Customers' = COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( 'SalesTable'[Customer_ID] ) ) ) + 0
 		formatString: #,0
 		displayFolder: Customer Analysis
 		lineageTag: 09df5913-15d2-4d9b-b270-b87b25b4889b
@@ -650,7 +650,7 @@ table SalesTable
 		lineageTag: a0292098-1cbb-4857-b4cb-4641064f6ab7
 
 	/// Customers with two or more orders in the current selection.
-	measure 'Repeat Customers' = COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Orders] >= 2 ) ) + 0
+	measure 'Repeat Customers' = COUNTROWS ( FILTER ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( 'SalesTable'[Customer_ID] ) ), [Total Orders] >= 2 ) ) + 0
 		formatString: #,0
 		displayFolder: Customer Analysis
 		lineageTag: 46b786bd-8660-48d6-80f0-50e15223b157
@@ -686,13 +686,13 @@ table SalesTable
 		lineageTag: b3c9eae2-53a0-4a1b-9bcf-f9c621186320
 
 	/// Median revenue per active customer.
-	measure 'Median Customer Revenue' = MEDIANX ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Revenue] )
+	measure 'Median Customer Revenue' = MEDIANX ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( 'SalesTable'[Customer_ID] ) ), [Total Revenue] )
 		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
 		displayFolder: Customer Analysis
 		lineageTag: a99bd51d-be94-4ff6-a9a5-947976bee264
 
 	/// Highest number of orders placed by a single customer.
-	measure 'Max Orders per Customer' = MAXX ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Orders] ) + 0
+	measure 'Max Orders per Customer' = MAXX ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( 'SalesTable'[Customer_ID] ) ), [Total Orders] ) + 0
 		formatString: #,0
 		displayFolder: Customer Analysis
 		lineageTag: 838ab329-f885-42fd-b597-abc7d818880d
@@ -726,7 +726,7 @@ table SalesTable
 	measure 'Cumulative Revenue %' =
 			VAR _current = [Total Revenue]
 			VAR _customers =
-			    CALCULATETABLE ( ADDCOLUMNS ( VALUES ( 'SalesTable'[Customer_ID] ), "@Revenue", [Total Revenue] ), ALLSELECTED ( 'SalesTable' ) )
+			    CALCULATETABLE ( ADDCOLUMNS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( 'SalesTable'[Customer_ID] ) ), "@Revenue", [Total Revenue] ), ALLSELECTED ( 'SalesTable' ) )
 			VAR _total = SUMX ( _customers, [@Revenue] )
 			VAR _cumulative = SUMX ( FILTER ( _customers, [@Revenue] >= _current ), [@Revenue] )
 			RETURN
@@ -738,7 +738,7 @@ table SalesTable
 	/// Sentence for the Pareto chart: revenue share of the top 10% and top 20% of customers.
 	measure 'Value Concentration Insight' =
 			VAR _customers =
-			    CALCULATETABLE ( ADDCOLUMNS ( VALUES ( 'SalesTable'[Customer_ID] ), "@Revenue", [Total Revenue] ), ALLSELECTED ( 'SalesTable' ) )
+			    CALCULATETABLE ( ADDCOLUMNS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( 'SalesTable'[Customer_ID] ) ), "@Revenue", [Total Revenue] ), ALLSELECTED ( 'SalesTable' ) )
 			VAR _count = COUNTROWS ( _customers )
 			VAR _total = SUMX ( _customers, [@Revenue] )
 			VAR _top10 = ROUND ( _count * 0.1, 0 )
@@ -799,7 +799,7 @@ table SalesTable
 		lineageTag: 112743a1-f1dd-44cd-a646-78d96f73cbcc
 
 	/// Number of active customers in the current segment bucket.
-	measure 'Customers in Segment' = COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( [Total Orders] ) ) ) + 0
+	measure 'Customers in Segment' = COUNTROWS ( FILTER ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( 'SalesTable'[Customer_ID] ) ), NOT ISBLANK ( [Total Orders] ) ) ) + 0
 		formatString: #,0
 		displayFolder: Customer Analysis
 		lineageTag: f25f4667-582d-4693-8c59-79c63367732c
@@ -845,7 +845,7 @@ table SalesTable
 	/// Sentence for the segment chart: how many champions and how many customers are at risk.
 	measure 'Segment Insight' =
 			VAR _customers =
-			    ADDCOLUMNS ( VALUES ( 'SalesTable'[Customer_ID] ), "@Segment", [Customer Segment] )
+			    ADDCOLUMNS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( 'SalesTable'[Customer_ID] ) ), "@Segment", [Customer Segment] )
 			VAR _champions = COUNTROWS ( FILTER ( _customers, [@Segment] = "Champion" ) ) + 0
 			VAR _atRisk = COUNTROWS ( FILTER ( _customers, [@Segment] = "At risk" ) ) + 0
 			VAR _total = COUNTROWS ( _customers )
@@ -859,7 +859,7 @@ table SalesTable
 		lineageTag: 0b921b67-91ae-4561-8e48-87160a5b95f6
 
 	/// Upper bound for the Pareto column axis so the cumulative line stays above the columns.
-	measure 'Customer Pareto Axis Max' = MAXX ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Revenue] ) * 1.7
+	measure 'Customer Pareto Axis Max' = MAXX ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( 'SalesTable'[Customer_ID] ) ), [Total Revenue] ) * 1.7
 		formatString: #,0
 		displayFolder: Customer Analysis
 		lineageTag: cc1f0000-5dea-4f71-8aa3-4618689b9721
@@ -878,7 +878,7 @@ table SalesTable
 	measure 'Avg Days Between Orders' =
 			VAR _customers =
 			    ADDCOLUMNS (
-			        FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Orders] >= 2 ),
+			        FILTER ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( 'SalesTable'[Customer_ID] ) ), [Total Orders] >= 2 ),
 			        "@Gap",
 			            VAR _first = CALCULATE ( MIN ( 'SalesTable'[Order_Date] ) )
 			            VAR _last = CALCULATE ( MAX ( 'SalesTable'[Order_Date] ) )
@@ -891,13 +891,13 @@ table SalesTable
 		lineageTag: a33ce038-c6c8-4528-b825-f428e0311861
 
 	/// Customers whose last order is more than 90 days before the most recent order in the selection.
-	measure 'Customers At Risk' = COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Customer Segment] = "At risk" ) ) + 0
+	measure 'Customers At Risk' = COUNTROWS ( FILTER ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( 'SalesTable'[Customer_ID] ) ), [Customer Segment] = "At risk" ) ) + 0
 		formatString: #,0
 		displayFolder: Customer Retention
 		lineageTag: abe04ccf-d262-45c0-97c2-0bcf4b02eeff
 
 	/// Revenue earned by the customers currently flagged as At risk.
-	measure 'Revenue At Risk' = SUMX ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Customer Segment] = "At risk" ), [Total Revenue] )
+	measure 'Revenue At Risk' = SUMX ( FILTER ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( 'SalesTable'[Customer_ID] ) ), [Customer Segment] = "At risk" ), [Total Revenue] )
 		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
 		displayFolder: Customer Retention
 		lineageTag: 8461741d-d24c-4ed2-87c7-f03be5450fa8
@@ -906,7 +906,7 @@ table SalesTable
 	measure 'High Value At Risk' =
 			VAR _average = CALCULATE ( [Revenue per Customer], ALLSELECTED ( 'SalesTable'[Customer_ID] ) )
 			RETURN
-			    COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Customer Segment] = "At risk" && [Total Revenue] >= _average ) ) + 0
+			    COUNTROWS ( FILTER ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( 'SalesTable'[Customer_ID] ) ), [Customer Segment] = "At risk" && [Total Revenue] >= _average ) ) + 0
 		formatString: #,0
 		displayFolder: Customer Retention
 		lineageTag: 53f5b60d-1e4b-4673-968a-0db352813c69
@@ -1036,7 +1036,11 @@ table SalesTable
 	measure 'First-time Buyers' =
 			CALCULATE (
 			    DISTINCTCOUNT ( 'SalesTable'[Customer_ID] ),
-			    FILTER ( 'SalesTable', 'SalesTable'[Order_Date] = 'SalesTable'[First_Purchase_Date] )
+			    FILTER (
+			        'SalesTable',
+			        'SalesTable'[Order_Date] = 'SalesTable'[First_Purchase_Date]
+			            && NOT ISBLANK ( 'SalesTable'[Customer_ID] )
+			    )
 			) + 0
 		formatString: #,0
 		displayFolder: Customer Retention
