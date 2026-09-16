@@ -387,7 +387,6 @@ table SalesTable
 		displayFolder: Dashboard Design
 		lineageTag: 07ffac40-07b3-4255-aaa8-2d5484e2e3eb
 
-
 	measure 'Returned Quantity' =
 			
 			CALCULATE(
@@ -409,7 +408,6 @@ table SalesTable
 		displayFolder: Dashboard Design
 		lineageTag: 5a823da8-1a58-49f1-a959-548bf5fa0ef5
 
-
 	measure 'Total Cost' =
 			
 			SUMX(
@@ -429,12 +427,11 @@ table SalesTable
 		formatString: 0.0%;-0.0%;0.0%
 		lineageTag: 1e2123fd-b709-45b8-9be1-d1bc216f6981
 
-
 	/// Average units per order line: shows whether discounts make customers buy more per purchase.
-	measure 'Avg Units per Order Line' =
-			DIVIDE ( [Total Quantity], COUNTROWS ( 'SalesTable' ) )
+	measure 'Avg Units per Order Line' = DIVIDE ( [Total Quantity], COUNTROWS ( 'SalesTable' ) )
 		formatString: 0.00
 		displayFolder: Dashboard Design
+		lineageTag: 15ffecb3-edd2-42e5-9b0e-79f2f4ae4aa5
 
 	/// Change in Weighted Avg Discount versus the preceding period of the same length, in percentage points.
 	measure 'Discount vs PP (pp)' =
@@ -448,6 +445,7 @@ table SalesTable
 			    IF ( NOT ISBLANK ( _priorRevenue ), ( [Weighted Avg Discount] - _prior ) * 100 )
 		formatString: \↑\ 0.00\ \p\p;\↓\ 0.00\ \p\p;0.00\ \p\p
 		displayFolder: Dashboard Design
+		lineageTag: fff91680-1995-4c04-8f9c-b3afa4151558
 
 	/// Change in Return Rate versus the preceding period of the same length, in percentage points.
 	measure 'Return Rate vs PP (pp)' =
@@ -461,6 +459,7 @@ table SalesTable
 			    IF ( NOT ISBLANK ( _priorRevenue ), ( [Return Rate] - _prior ) * 100 )
 		formatString: \↑\ 0.00\ \p\p;\↓\ 0.00\ \p\p;0.00\ \p\p
 		displayFolder: Dashboard Design
+		lineageTag: 3d4c7227-3ba3-47a3-adf0-c6835fca006a
 
 	/// Change in Cost Ratio versus the preceding period of the same length, in percentage points.
 	measure 'Cost Ratio vs PP (pp)' =
@@ -474,6 +473,7 @@ table SalesTable
 			    IF ( NOT ISBLANK ( _priorRevenue ), ( [Cost Ratio] - _prior ) * 100 )
 		formatString: \↑\ 0.00\ \p\p;\↓\ 0.00\ \p\p;0.00\ \p\p
 		displayFolder: Dashboard Design
+		lineageTag: bb56d49d-437e-4625-a8e4-2c31f458122f
 
 	/// Green when the discount rate went down, red when it went up, grey without a prior period.
 	measure 'Discount Delta Color' =
@@ -481,6 +481,7 @@ table SalesTable
 			RETURN
 			    SWITCH ( TRUE (), ISBLANK ( _change ), "#8A94A6", _change <= 0, "#16A34A", "#DC2626" )
 		displayFolder: Dashboard Design
+		lineageTag: 6ad73ad8-569b-476b-bd10-8ddda31a34ed
 
 	/// Green when the return rate went down, red when it went up, grey without a prior period.
 	measure 'Return Rate Delta Color' =
@@ -488,6 +489,7 @@ table SalesTable
 			RETURN
 			    SWITCH ( TRUE (), ISBLANK ( _change ), "#8A94A6", _change <= 0, "#16A34A", "#DC2626" )
 		displayFolder: Dashboard Design
+		lineageTag: 7a3a7b94-7483-42fb-9c25-f6d1f7903b0d
 
 	/// Green when the cost ratio went down, red when it went up, grey without a prior period.
 	measure 'Cost Ratio Delta Color' =
@@ -495,12 +497,13 @@ table SalesTable
 			RETURN
 			    SWITCH ( TRUE (), ISBLANK ( _change ), "#8A94A6", _change <= 0, "#16A34A", "#DC2626" )
 		displayFolder: Dashboard Design
+		lineageTag: 4b22c124-4f3f-4761-8a6d-6eb8ba3605c9
 
 	/// Average Total Revenue per product with sales; reference line on the product diagnosis scatter.
-	measure 'Avg Product Revenue' =
-			AVERAGEX ( VALUES ( 'ProductsTable'[Product_Name] ), [Total Revenue] )
+	measure 'Avg Product Revenue' = AVERAGEX ( VALUES ( 'ProductsTable'[Product_Name] ), [Total Revenue] )
 		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
 		displayFolder: Dashboard Design
+		lineageTag: e1acf309-2f0a-46ea-b024-7f03c7438217
 
 	/// Scatter colour: red = revenue at or above average but margin below average, green = margin at or above average, grey = the rest.
 	measure 'Product Diagnosis Color' =
@@ -511,6 +514,7 @@ table SalesTable
 			RETURN
 			    SWITCH ( TRUE (), _revenue >= _avgRevenue && _margin < _avgMargin, "#DC2626", _margin >= _avgMargin, "#10B981", "#94A3B8" )
 		displayFolder: Dashboard Design
+		lineageTag: 8ae51a3e-35f9-4ec4-8d29-9a7282499c0f
 
 	/// Sentence for the product diagnosis section: how many products have above-average revenue but below-average margin.
 	measure 'Product Diagnosis Insight' =
@@ -525,6 +529,7 @@ table SalesTable
 			RETURN
 			    _count & IF ( _count = 1, " product earns", " products earn" ) & " above-average revenue but below-average profit margin (red points) - check their cost ratio and discounts in the table."
 		displayFolder: Dashboard Design
+		lineageTag: 272e1921-0c0a-42b2-b3da-b59cd52f3b61
 
 	/// Sentence for the discount chart: margin at the lowest vs highest discount level and the range of units per order line.
 	measure 'Discount Insight' =
@@ -545,6 +550,7 @@ table SalesTable
 			            & ", while units per order line stay between " & FORMAT ( MINX ( _levels, [@Units] ), "0.00" ) & " and " & FORMAT ( MAXX ( _levels, [@Units] ), "0.00" ) & "."
 			    )
 		displayFolder: Dashboard Design
+		lineageTag: 8053aced-2774-4f8c-8be4-8d5ba3a6ab8e
 
 	/// Sentence for the cost-ratio chart: category with the highest cost ratio and the one with the lowest margin.
 	measure 'Category Insight' =
@@ -568,17 +574,18 @@ table SalesTable
 			            )
 			    )
 		displayFolder: Dashboard Design
+		lineageTag: f09e3cf0-df9d-428b-92ab-5d2cb4db977d
 
 	/// Upper bound for the column axis of the discount chart, leaving room for the margin line above the columns.
-	measure 'Discount Chart Axis Max' =
-			MAXX ( VALUES ( 'SalesTable'[Discount_Pct] ), [Avg Units per Order Line] ) * 1.8
+	measure 'Discount Chart Axis Max' = MAXX ( VALUES ( 'SalesTable'[Discount_Pct] ), [Avg Units per Order Line] ) * 1.8
 		formatString: 0.00
 		displayFolder: Dashboard Design
+		lineageTag: f53bf816-55fd-4fc0-aff0-fb7a38e08769
 
 	/// Category of the product in the current row; used as a column in the product diagnosis table.
-	measure 'Product Category Label' =
-			SELECTEDVALUE ( 'ProductsTable'[Category] )
+	measure 'Product Category Label' = SELECTEDVALUE ( 'ProductsTable'[Category] )
 		displayFolder: Dashboard Design
+		lineageTag: bc6fd89b-e8a5-4e1d-b070-7e8c39807ac6
 
 	/// Cell colour for Profit Margin in the product table: green at or above 55%, red below 45%, white in between.
 	measure 'Margin Cell Color' =
@@ -586,6 +593,7 @@ table SalesTable
 			RETURN
 			    SWITCH ( TRUE (), _margin >= 0.55, "#C9EDD8", _margin < 0.45, "#F8C4C4", "#FFFFFF" )
 		displayFolder: Dashboard Design
+		lineageTag: 0f1ff040-acd3-4b13-b924-14a94d29f715
 
 	/// Cell colour for Cost Ratio: green below 40% of gross sales, red above 52%.
 	measure 'Cost Ratio Cell Color' =
@@ -593,6 +601,7 @@ table SalesTable
 			RETURN
 			    SWITCH ( TRUE (), _value <= 0.4, "#C9EDD8", _value >= 0.52, "#F8C4C4", "#FFFFFF" )
 		displayFolder: Dashboard Design
+		lineageTag: dafd71f4-03ce-44c9-bca9-2783fec0d78e
 
 	/// Cell colour for Avg Discount: green at or below 6%, red at or above 10%.
 	measure 'Discount Cell Color' =
@@ -600,6 +609,7 @@ table SalesTable
 			RETURN
 			    SWITCH ( TRUE (), _value <= 0.06, "#C9EDD8", _value >= 0.1, "#F8C4C4", "#FFFFFF" )
 		displayFolder: Dashboard Design
+		lineageTag: cdba2c02-7588-4c00-851b-f78936c16cb0
 
 	/// Cell colour for Return Rate: green at or below 2%, red at or above 5%.
 	measure 'Return Rate Cell Color' =
@@ -607,48 +617,49 @@ table SalesTable
 			RETURN
 			    SWITCH ( TRUE (), _value <= 0.02, "#C9EDD8", _value >= 0.05, "#F8C4C4", "#FFFFFF" )
 		displayFolder: Dashboard Design
+		lineageTag: 2f7e3253-6e1d-44e7-993f-ea8e697075d2
 
 	/// Customers with at least one order in the current selection.
-	measure 'Active Customers' =
-			DISTINCTCOUNT ( 'SalesTable'[Customer_ID] )
+	measure 'Active Customers' = DISTINCTCOUNT ( 'SalesTable'[Customer_ID] )
 		formatString: #,0
 		displayFolder: Customer Analysis
+		lineageTag: 09df5913-15d2-4d9b-b270-b87b25b4889b
 
 	/// Distinct orders in the current selection.
-	measure 'Total Orders' =
-			DISTINCTCOUNT ( 'SalesTable'[Order_ID] )
+	measure 'Total Orders' = DISTINCTCOUNT ( 'SalesTable'[Order_ID] )
 		formatString: #,0
 		displayFolder: Customer Analysis
+		lineageTag: 5a99a12e-edf8-4a7d-9bb9-c216b41c823d
 
 	/// Total Revenue divided by the number of active customers.
-	measure 'Revenue per Customer' =
-			DIVIDE ( [Total Revenue], [Active Customers] )
+	measure 'Revenue per Customer' = DIVIDE ( [Total Revenue], [Active Customers] )
 		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
 		displayFolder: Customer Analysis
+		lineageTag: 14905e05-764e-4dc9-987a-3f05bb67779b
 
 	/// Total Revenue divided by the number of orders.
-	measure 'Avg Order Value' =
-			DIVIDE ( [Total Revenue], [Total Orders] )
+	measure 'Avg Order Value' = DIVIDE ( [Total Revenue], [Total Orders] )
 		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
 		displayFolder: Customer Analysis
+		lineageTag: 15555c31-abf0-43e5-a9e2-ec729d924125
 
 	/// Average number of orders per active customer.
-	measure 'Orders per Customer' =
-			DIVIDE ( [Total Orders], [Active Customers] )
+	measure 'Orders per Customer' = DIVIDE ( [Total Orders], [Active Customers] )
 		formatString: 0.00
 		displayFolder: Customer Analysis
+		lineageTag: a0292098-1cbb-4857-b4cb-4641064f6ab7
 
 	/// Customers with two or more orders in the current selection.
-	measure 'Repeat Customers' =
-			COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Orders] >= 2 ) ) + 0
+	measure 'Repeat Customers' = COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Orders] >= 2 ) ) + 0
 		formatString: #,0
 		displayFolder: Customer Analysis
+		lineageTag: 46b786bd-8660-48d6-80f0-50e15223b157
 
 	/// Share of active customers who ordered more than once.
-	measure 'Repeat Rate' =
-			DIVIDE ( [Repeat Customers], [Active Customers] )
+	measure 'Repeat Rate' = DIVIDE ( [Repeat Customers], [Active Customers] )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Customer Analysis
+		lineageTag: bc864329-ea15-4aaf-8124-ec2077bce478
 
 	/// Active customers whose Join_Date falls inside the selected period.
 	measure 'New Customers' =
@@ -666,49 +677,50 @@ table SalesTable
 			    ) + 0
 		formatString: #,0
 		displayFolder: Customer Analysis
+		lineageTag: f2bdeb81-898f-41dc-bd48-357d2e5e81f6
 
 	/// Active customers who joined before the selected period.
-	measure 'Returning Customers' =
-			[Active Customers] - [New Customers]
+	measure 'Returning Customers' = [Active Customers] - [New Customers]
 		formatString: #,0
 		displayFolder: Customer Analysis
+		lineageTag: b3c9eae2-53a0-4a1b-9bcf-f9c621186320
 
 	/// Median revenue per active customer.
-	measure 'Median Customer Revenue' =
-			MEDIANX ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Revenue] )
+	measure 'Median Customer Revenue' = MEDIANX ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Revenue] )
 		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
 		displayFolder: Customer Analysis
+		lineageTag: a99bd51d-be94-4ff6-a9a5-947976bee264
 
 	/// Highest number of orders placed by a single customer.
-	measure 'Max Orders per Customer' =
-			MAXX ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Orders] ) + 0
+	measure 'Max Orders per Customer' = MAXX ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Orders] ) + 0
 		formatString: #,0
 		displayFolder: Customer Analysis
+		lineageTag: 838ab329-f885-42fd-b597-abc7d818880d
 
 	/// Caption under the customer count: new versus returning.
-	measure 'Customers Caption' =
-			FORMAT ( [New Customers], "#,0" ) & " new" & " · " & FORMAT ( [Returning Customers], "#,0" ) & " returning"
+	measure 'Customers Caption' = FORMAT ( [New Customers], "#,0" ) & " new" & " · " & FORMAT ( [Returning Customers], "#,0" ) & " returning"
 		displayFolder: Customer Analysis
+		lineageTag: a8800d50-b0a7-480d-bcae-c89d7cb3ed0e
 
 	/// Caption under revenue per customer: the median customer.
-	measure 'Revenue per Customer Caption' =
-			"median " & FORMAT ( [Median Customer Revenue] / 1e6, "0.0" ) & "M ₫"
+	measure 'Revenue per Customer Caption' = "median " & FORMAT ( [Median Customer Revenue] / 1e6, "0.0" ) & "M ₫"
 		displayFolder: Customer Analysis
+		lineageTag: 73b0b345-4c8c-4112-98df-35764e35b0b9
 
 	/// Caption under average order value: order count.
-	measure 'Avg Order Value Caption' =
-			FORMAT ( [Total Orders], "#,0" ) & " orders in total"
+	measure 'Avg Order Value Caption' = FORMAT ( [Total Orders], "#,0" ) & " orders in total"
 		displayFolder: Customer Analysis
+		lineageTag: 92f409bb-034f-4a06-bad6-f57725fcae6b
 
 	/// Caption under orders per customer: the most active customer.
-	measure 'Orders per Customer Caption' =
-			"most active customer: " & FORMAT ( [Max Orders per Customer], "#,0" ) & " orders"
+	measure 'Orders per Customer Caption' = "most active customer: " & FORMAT ( [Max Orders per Customer], "#,0" ) & " orders"
 		displayFolder: Customer Analysis
+		lineageTag: 264072cb-0989-4651-9b4e-0b05b67c624b
 
 	/// Caption under repeat rate: how many customers ordered again.
-	measure 'Repeat Rate Caption' =
-			FORMAT ( [Repeat Customers], "#,0" ) & " of " & FORMAT ( [Active Customers], "#,0" ) & " customers"
+	measure 'Repeat Rate Caption' = FORMAT ( [Repeat Customers], "#,0" ) & " of " & FORMAT ( [Active Customers], "#,0" ) & " customers"
 		displayFolder: Customer Analysis
+		lineageTag: ed1a1aeb-dbd7-4ece-a7b8-ad6d13b1a813
 
 	/// Running share of revenue when customers are ranked from the largest to the smallest.
 	measure 'Cumulative Revenue %' =
@@ -721,6 +733,7 @@ table SalesTable
 			    IF ( NOT ISBLANK ( _current ), DIVIDE ( _cumulative, _total ) )
 		formatString: 0%;-0%;0%
 		displayFolder: Customer Analysis
+		lineageTag: 3a2618c6-d7e4-40f7-8d4a-f50789100827
 
 	/// Sentence for the Pareto chart: revenue share of the top 10% and top 20% of customers.
 	measure 'Value Concentration Insight' =
@@ -739,6 +752,7 @@ table SalesTable
 			            & FORMAT ( DIVIDE ( SUMX ( TOPN ( _top20, _customers, [@Revenue], DESC ), [@Revenue] ), _total ), "0.0%" ) & "."
 			    )
 		displayFolder: Customer Analysis
+		lineageTag: 205dd561-5ba0-47ae-8d3b-8de995e39cc8
 
 	/// Days between a customer's last order and the latest order date in the selection.
 	measure 'Days Since Last Order' =
@@ -748,6 +762,7 @@ table SalesTable
 			    IF ( NOT ISBLANK ( _last ), DATEDIFF ( _last, _reference, DAY ) )
 		formatString: #,0
 		displayFolder: Customer Analysis
+		lineageTag: b29592da-0ade-45d2-ae09-c991892b82e2
 
 	/// Behaviour segment: Champion, Loyal, At risk, One-time or Occasional.
 	measure 'Customer Segment' =
@@ -766,6 +781,7 @@ table SalesTable
 			        "Occasional"
 			    )
 		displayFolder: Customer Analysis
+		lineageTag: 3c301223-fa47-49c9-b456-5841f534e141
 
 	/// Colour for the customer segment: green for Champion and Loyal, red for At risk.
 	measure 'Segment Color' =
@@ -780,12 +796,13 @@ table SalesTable
 			        "#94A3B8"
 			    )
 		displayFolder: Customer Analysis
+		lineageTag: 112743a1-f1dd-44cd-a646-78d96f73cbcc
 
 	/// Number of active customers in the current segment bucket.
-	measure 'Customers in Segment' =
-			COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( [Total Orders] ) ) ) + 0
+	measure 'Customers in Segment' = COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), NOT ISBLANK ( [Total Orders] ) ) ) + 0
 		formatString: #,0
 		displayFolder: Customer Analysis
+		lineageTag: f25f4667-582d-4693-8c59-79c63367732c
 
 	/// Sentence for the member tier chart: which tier brings the most revenue and how average order value compares.
 	measure 'Tier Insight' =
@@ -804,6 +821,7 @@ table SalesTable
 			            & FORMAT ( MINX ( _tiers, [@AOV] ) / 1e6, "0.00" ) & "M and " & FORMAT ( MAXX ( _tiers, [@AOV] ) / 1e6, "0.00" ) & "M ₫ across tiers."
 			    )
 		displayFolder: Customer Analysis
+		lineageTag: 86eed1fa-25d4-4741-ab5d-a12538795511
 
 	/// Sentence for the acquisition chart: strongest source by revenue and by revenue per customer.
 	measure 'Acquisition Insight' =
@@ -822,6 +840,7 @@ table SalesTable
 			            & FORMAT ( MAXX ( _topPer, [@PerCustomer] ) / 1e6, "0.0" ) & "M ₫)."
 			    )
 		displayFolder: Customer Analysis
+		lineageTag: 226da7c8-d1d4-4912-9bc8-942542b1ae76
 
 	/// Sentence for the segment chart: how many champions and how many customers are at risk.
 	measure 'Segment Insight' =
@@ -837,22 +856,23 @@ table SalesTable
 			            & " customers have not ordered in the last 90 days of the selection."
 			    )
 		displayFolder: Customer Analysis
+		lineageTag: 0b921b67-91ae-4561-8e48-87160a5b95f6
 
 	/// Upper bound for the Pareto column axis so the cumulative line stays above the columns.
-	measure 'Customer Pareto Axis Max' =
-			MAXX ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Revenue] ) * 1.7
+	measure 'Customer Pareto Axis Max' = MAXX ( VALUES ( 'SalesTable'[Customer_ID] ), [Total Revenue] ) * 1.7
 		formatString: #,0
 		displayFolder: Customer Analysis
+		lineageTag: cc1f0000-5dea-4f71-8aa3-4618689b9721
 
 	/// Member tier of the customer in the current row.
-	measure 'Member Tier Label' =
-			SELECTEDVALUE ( 'CustomersTable'[Member_Tier], "—" )
+	measure 'Member Tier Label' = SELECTEDVALUE ( 'CustomersTable'[Member_Tier], "—" )
 		displayFolder: Customer Analysis
+		lineageTag: 7f07da86-9b80-4db2-8de3-3ff81596b860
 
 	/// City of the customer in the current row.
-	measure 'Customer City Label' =
-			SELECTEDVALUE ( 'CustomersTable'[City], "—" )
+	measure 'Customer City Label' = SELECTEDVALUE ( 'CustomersTable'[City], "—" )
 		displayFolder: Customer Analysis
+		lineageTag: b64be1ad-fadf-4e60-aa0c-e7a1ecf5201a
 
 	/// Average number of days between two orders of the same customer (customers with at least two orders).
 	measure 'Avg Days Between Orders' =
@@ -868,18 +888,19 @@ table SalesTable
 			    AVERAGEX ( _customers, [@Gap] )
 		formatString: #,0
 		displayFolder: Customer Retention
+		lineageTag: a33ce038-c6c8-4528-b825-f428e0311861
 
 	/// Customers whose last order is more than 90 days before the most recent order in the selection.
-	measure 'Customers At Risk' =
-			COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Customer Segment] = "At risk" ) ) + 0
+	measure 'Customers At Risk' = COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Customer Segment] = "At risk" ) ) + 0
 		formatString: #,0
 		displayFolder: Customer Retention
+		lineageTag: abe04ccf-d262-45c0-97c2-0bcf4b02eeff
 
 	/// Revenue earned by the customers currently flagged as At risk.
-	measure 'Revenue At Risk' =
-			SUMX ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Customer Segment] = "At risk" ), [Total Revenue] )
+	measure 'Revenue At Risk' = SUMX ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Customer Segment] = "At risk" ), [Total Revenue] )
 		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
 		displayFolder: Customer Retention
+		lineageTag: 8461741d-d24c-4ed2-87c7-f03be5450fa8
 
 	/// At-risk customers whose revenue is at or above the average revenue per customer.
 	measure 'High Value At Risk' =
@@ -888,18 +909,19 @@ table SalesTable
 			    COUNTROWS ( FILTER ( VALUES ( 'SalesTable'[Customer_ID] ), [Customer Segment] = "At risk" && [Total Revenue] >= _average ) ) + 0
 		formatString: #,0
 		displayFolder: Customer Retention
+		lineageTag: 53f5b60d-1e4b-4673-968a-0db352813c69
 
 	/// Order lines that carry a customer rating.
-	measure 'Rated Orders' =
-			COUNTROWS ( FILTER ( 'SalesTable', NOT ISBLANK ( 'SalesTable'[Customer_Rating] ) ) ) + 0
+	measure 'Rated Orders' = COUNTROWS ( FILTER ( 'SalesTable', NOT ISBLANK ( 'SalesTable'[Customer_Rating] ) ) ) + 0
 		formatString: #,0
 		displayFolder: Customer Retention
+		lineageTag: c0b3b5f2-bbac-4cea-9455-bfe7b22f828c
 
 	/// Average customer rating (1 to 5) across rated order lines.
-	measure 'Avg Customer Rating' =
-			AVERAGEX ( FILTER ( 'SalesTable', NOT ISBLANK ( 'SalesTable'[Customer_Rating] ) ), VALUE ( 'SalesTable'[Customer_Rating] ) )
+	measure 'Avg Customer Rating' = AVERAGEX ( FILTER ( 'SalesTable', NOT ISBLANK ( 'SalesTable'[Customer_Rating] ) ), VALUE ( 'SalesTable'[Customer_Rating] ) )
 		formatString: 0.0
 		displayFolder: Customer Retention
+		lineageTag: 4748f396-9752-4d6f-a015-6fa0128db9d8
 
 	/// Share of rated order lines with 4 or 5 stars.
 	measure 'Happy Orders %' =
@@ -909,6 +931,7 @@ table SalesTable
 			    DIVIDE ( _happy, _rated )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Customer Retention
+		lineageTag: 1d196dcd-1595-4fc3-bb1c-6cae1991f570
 
 	/// Share of order lines placed on the channel the customer declared as preferred.
 	measure 'Channel Match Rate' =
@@ -921,31 +944,32 @@ table SalesTable
 			    DIVIDE ( _matched, _total )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Customer Retention
+		lineageTag: a19f230b-0988-429a-9940-7772c49d83c6
 
 	/// Caption: how the gap compares with the 90 day at-risk threshold.
-	measure 'Avg Days Between Orders Caption' =
-			"at-risk threshold is 90 days"
+	measure 'Avg Days Between Orders Caption' = "at-risk threshold is 90 days"
 		displayFolder: Customer Retention
+		lineageTag: 51766415-c446-4169-aa56-a2ec631623f5
 
 	/// Caption: how many at-risk customers spend above average.
-	measure 'Customers At Risk Caption' =
-			FORMAT ( [High Value At Risk], "#,0" ) & " of them spend above average"
+	measure 'Customers At Risk Caption' = FORMAT ( [High Value At Risk], "#,0" ) & " of them spend above average"
 		displayFolder: Customer Retention
+		lineageTag: 1f261d84-86d1-4199-836f-6c1341ec8fdc
 
 	/// Caption: share of revenue tied to at-risk customers.
-	measure 'Revenue At Risk Caption' =
-			FORMAT ( DIVIDE ( [Revenue At Risk], [Total Revenue] ), "0.0%" ) & " of total revenue"
+	measure 'Revenue At Risk Caption' = FORMAT ( DIVIDE ( [Revenue At Risk], [Total Revenue] ), "0.0%" ) & " of total revenue"
 		displayFolder: Customer Retention
+		lineageTag: e72525c4-f8a2-4499-811f-873ba0b009c9
 
 	/// Caption: how many order lines carry a rating.
-	measure 'Avg Customer Rating Caption' =
-			FORMAT ( [Rated Orders], "#,0" ) & " rated orders · " & FORMAT ( [Happy Orders %], "0.0%" ) & " gave 4-5 stars"
+	measure 'Avg Customer Rating Caption' = FORMAT ( [Rated Orders], "#,0" ) & " rated orders · " & FORMAT ( [Happy Orders %], "0.0%" ) & " gave 4-5 stars"
 		displayFolder: Customer Retention
+		lineageTag: bf65c558-3643-4fbe-b345-e53e34124157
 
 	/// Caption: what the channel match rate means.
-	measure 'Channel Match Rate Caption' =
-			"orders placed on the declared preferred channel"
+	measure 'Channel Match Rate Caption' = "orders placed on the declared preferred channel"
 		displayFolder: Customer Retention
+		lineageTag: a2df9533-6db3-403d-a306-fb8960d9a735
 
 	/// Sentence for the monthly chart: how first-time and repeat buyers moved across the selected months.
 	measure 'Retention Insight' =
@@ -974,6 +998,7 @@ table SalesTable
 			            & ", while repeat buyers grew from " & FORMAT ( _firstActive - _firstNew, "#,0" ) & " to " & FORMAT ( _lastActive - _lastNew, "#,0" ) & "."
 			    )
 		displayFolder: Customer Retention
+		lineageTag: 02c07c97-0c1a-45b7-8bbf-85f87412f072
 
 	/// Sentence for the rating distribution: overall rating and the share of unhappy orders.
 	measure 'Rating Insight' =
@@ -987,11 +1012,12 @@ table SalesTable
 			        & " of rated orders gave 4 or 5 stars, but " & FORMAT ( _low, "#,0" ) & " orders ("
 			        & FORMAT ( DIVIDE ( _low, [Rated Orders] ), "0.0%" ) & ") rated 1 or 2 stars."
 		displayFolder: Customer Retention
+		lineageTag: 1c090c56-8b9d-468b-ab30-768dd07cef97
 
 	/// Sentence for the channel matrix: how often customers buy on the channel they declared.
-	measure 'Channel Insight' =
-			"Only " & FORMAT ( [Channel Match Rate], "0.0%" ) & " of orders are placed on the channel the customer declared as preferred, so the declared preference is a weak targeting signal."
+	measure 'Channel Insight' = "Only " & FORMAT ( [Channel Match Rate], "0.0%" ) & " of orders are placed on the channel the customer declared as preferred, so the declared preference is a weak targeting signal."
 		displayFolder: Customer Retention
+		lineageTag: 13e12850-7904-43fe-b122-3f2a05221ecc
 
 	/// Sentence for the win-back list: how much revenue sits with at-risk customers.
 	measure 'At Risk Insight' =
@@ -999,6 +1025,7 @@ table SalesTable
 			    & FORMAT ( [Revenue At Risk] / 1e6, "#,0" ) & "M ₫ (" & FORMAT ( DIVIDE ( [Revenue At Risk], [Total Revenue] ), "0.0%" ) & " of revenue); "
 			    & FORMAT ( [High Value At Risk], "#,0" ) & " of them spend above average."
 		displayFolder: Customer Retention
+		lineageTag: f09eee66-1a07-4fff-af07-501dfb33fd34
 
 	/// Customers whose first ever order falls inside the selected period.
 	measure 'First-time Buyers' =
@@ -1008,12 +1035,13 @@ table SalesTable
 			) + 0
 		formatString: #,0
 		displayFolder: Customer Retention
+		lineageTag: ce92a89a-2873-44cb-b083-b4b15d8cf33f
 
 	/// Active customers who had already ordered before the selected period.
-	measure 'Repeat Buyers' =
-			[Active Customers] - [First-time Buyers]
+	measure 'Repeat Buyers' = [Active Customers] - [First-time Buyers]
 		formatString: #,0
 		displayFolder: Customer Retention
+		lineageTag: 663a4693-2a28-42c9-b655-55794274af04
 
 	/// Sentence for the delivery chart: how late delivery and returns pull ratings down.
 	measure 'Delivery Insight' =
@@ -1033,37 +1061,30 @@ table SalesTable
 			    "Orders delivered on time average " & FORMAT ( _onTime, "0.0" ) & " stars; the " & FORMAT ( _lateOrders, "#,0" )
 			        & " late ones average " & FORMAT ( _late, "0.0" ) & ", and returned orders only " & FORMAT ( _returned, "0.0" ) & "."
 		displayFolder: Customer Retention
-
-	/// The date of this customer's first ever order, used to split first-time from repeat buyers.
-	column First_Purchase_Date = CALCULATE ( MIN ( 'SalesTable'[Order_Date] ), ALLEXCEPT ( 'SalesTable', 'SalesTable'[Customer_ID] ) )
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: 9c1a5f30-4f36-4a07-bad4-15448ed2ea37
-		summarizeBy: none
-		isHidden
+		lineageTag: 1994be32-91b5-4eb2-b6d5-d4b1a852b722
 
 	/// Member tier, shown only for customers flagged as At risk.
-	measure 'Win-back Tier' =
-			IF ( [Customer Segment] = "At risk", [Member Tier Label] )
+	measure 'Win-back Tier' = IF ( [Customer Segment] = "At risk", [Member Tier Label] )
 		displayFolder: Customer Retention
+		lineageTag: 7c04b8ed-29f4-495b-879e-004c9d81caaa
 
 	/// Order count, shown only for customers flagged as At risk.
-	measure 'Win-back Orders' =
-			IF ( [Customer Segment] = "At risk", [Total Orders] )
+	measure 'Win-back Orders' = IF ( [Customer Segment] = "At risk", [Total Orders] )
 		formatString: #,0
 		displayFolder: Customer Retention
+		lineageTag: 144c50ff-a3a9-44a1-aa09-bc21cfc490f0
 
 	/// Revenue, shown only for customers flagged as At risk.
-	measure 'Win-back Revenue' =
-			IF ( [Customer Segment] = "At risk", [Total Revenue] )
+	measure 'Win-back Revenue' = IF ( [Customer Segment] = "At risk", [Total Revenue] )
 		formatString: #,0\ "₫";-#,0\ "₫";#,0\ "₫"
 		displayFolder: Customer Retention
+		lineageTag: 454b2b2d-7406-4ccc-8199-362143368a33
 
 	/// Days since the last order, shown only for customers flagged as At risk.
-	measure 'Win-back Days Quiet' =
-			IF ( [Customer Segment] = "At risk", [Days Since Last Order] )
+	measure 'Win-back Days Quiet' = IF ( [Customer Segment] = "At risk", [Days Since Last Order] )
 		formatString: #,0
 		displayFolder: Customer Retention
+		lineageTag: 66e89beb-7fc9-4935-83ab-e10edcd83fe4
 
 	column Transaction_ID
 		dataType: string
@@ -1178,7 +1199,6 @@ table SalesTable
 
 		annotation SummarizationSetBy = Automatic
 
-
 	column Unit_Cost
 		dataType: int64
 		formatString: 0
@@ -1289,6 +1309,14 @@ table SalesTable
 		sourceColumn: Customer_Rating
 
 		annotation SummarizationSetBy = Automatic
+
+	/// The date of this customer's first ever order, used to split first-time from repeat buyers.
+	column First_Purchase_Date = CALCULATE ( MIN ( 'SalesTable'[Order_Date] ), ALLEXCEPT ( 'SalesTable', 'SalesTable'[Customer_ID] ) )
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 9c1a5f30-4f36-4a07-bad4-15448ed2ea37
+		summarizeBy: none
 
 	partition SalesTable = m
 		mode: import

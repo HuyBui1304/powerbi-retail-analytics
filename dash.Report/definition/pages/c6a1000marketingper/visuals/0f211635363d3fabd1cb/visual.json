@@ -23,11 +23,11 @@
                       "Entity": "MarketingFunnelTable"
                     }
                   },
-                  "Property": "Visits"
+                  "Property": "Total Visits"
                 }
               },
-              "queryRef": "MarketingFunnelTable.Visits",
-              "nativeQueryRef": "Visits"
+              "queryRef": "MarketingFunnelTable.Total Visits",
+              "nativeQueryRef": "Total Visits"
             }
           ]
         }
@@ -246,6 +246,13 @@
               "expr": {
                 "Literal": {
                   "Value": "'left'"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }

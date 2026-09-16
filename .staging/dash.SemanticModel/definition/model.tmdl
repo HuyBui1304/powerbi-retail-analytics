@@ -13,8 +13,6 @@ annotation PBI_QueryOrder = ["SalesTable","ProductsTable","CustomersTable","Mark
 annotation PBI_ProTooling = ["DevMode"]
 
 ref table SalesTable
-ref table MarketingFunnelTable
-ref table FunnelStage
 ref table ProductsTable
 ref table DateTableTemplate_75ff84a6-1d8c-42c4-87ee-d86322563324
 ref table LocalDateTable_1e5b2d8f-86ff-4b44-8125-f33c984a499b
@@ -22,6 +20,8 @@ ref table CustomersTable
 ref table LocalDateTable_014feec3-aa67-475a-8c35-d646bbb27052
 ref table DateTable
 ref table LocalDateTable_f96ef3d7-f93f-40c8-9b85-af8f8ac9f65f
+ref table MarketingFunnelTable
+ref table FunnelStage
 
 ref cultureInfo en-US
 
